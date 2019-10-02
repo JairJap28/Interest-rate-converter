@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">EconomyApp</string>
+    <string name="interes_rate_converter">Interes Rate Converter</string>
 </resources>
