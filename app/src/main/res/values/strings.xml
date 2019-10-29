@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">EconomyApp</string>
     <string name="interes_rate_converter">Interes Rate Converter</string>
+    <string name="information">Information</string>
+    <string name="conversor_de_tasas_de_interes">Conversor de tasas de interes</string>
+    <string name="separador">Separador</string>
 </resources>
