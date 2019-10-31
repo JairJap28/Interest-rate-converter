@@ -4,4 +4,5 @@
     <string name="information">Information</string>
     <string name="conversor_de_tasas_de_interes">Conversor de tasas de interes</string>
     <string name="separador">Separador</string>
+    <string name="calculo_de_anualidades">Calculo de anualidades</string>
 </resources>

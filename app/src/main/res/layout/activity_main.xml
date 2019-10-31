@@ -22,20 +22,20 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="@string/interes_rate_converter"
                 android:textColor="@color/colorWhite"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_weight="1"/>
+                android:textStyle="bold" />
 
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_info_white_24dp"
-                android:background="?android:selectableItemBackground"
                 android:layout_gravity="center"
+                android:layout_weight="8"
+                android:background="?android:selectableItemBackground"
                 android:contentDescription="@string/information"
-                android:layout_weight="8"/>
+                android:src="@drawable/ic_info_white_24dp" />
         </LinearLayout>
 
     </androidx.appcompat.widget.Toolbar>
@@ -47,9 +47,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="@color/colorRed"
+            android:background="@color/colorPrimary"
             android:layout_margin="5dp"
             android:layout_marginEnd="5dp"
             android:layout_weight="1">
@@ -57,7 +57,7 @@
             <androidx.cardview.widget.CardView
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:padding="10dp"
                 android:layout_margin="2dp"
                 app:cardElevation="10dp">
@@ -69,30 +69,35 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="100dp">
+                        android:layout_height="64dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/percentage"/>
 
                     </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/colorLightGrey"
-                        android:contentDescription="@string/separador"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"/>
-
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/conversor_de_tasas_de_interes"
-                            android:textStyle="bold"
-                            android:textColor="@color/colorBlack"
-                            android:layout_margin="10dp"
-                            android:textSize="16sp"/>
+                            android:background="@color/colorWhite"
+                            android:padding="5dp"
+                            android:layout_margin="2dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/conversor_de_tasas_de_interes"
+                                android:textStyle="bold"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="16sp"/>
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -104,51 +109,56 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="@color/colorBlack"
+            android:background="@color/colorPrimary"
            android:layout_margin="5dp"
             android:layout_weight="1">
 
             <androidx.cardview.widget.CardView
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:padding="10dp"
                 android:layout_margin="2dp"
                 app:cardElevation="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="100dp">
+                        android:layout_height="64dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="64dp"
+                            android:src="@drawable/money"/>
 
                     </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/colorLightGrey"
-                        android:contentDescription="@string/separador"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"/>
-
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="match_parent"
+                        android:background="@color/colorPrimary">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/conversor_de_tasas_de_interes"
-                            android:textStyle="bold"
-                            android:textColor="@color/colorBlack"
-                            android:layout_margin="10dp"
-                            android:textSize="16sp"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:background="@color/colorWhite"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/calculo_de_anualidades"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
 
