@@ -5,5 +5,20 @@
     <string name="conversor_de_tasas_de_interes">Conversor de tasas de interes</string>
     <string name="separador">Separador</string>
     <string name="calculo_de_anualidades">Calculo de anualidades</string>
-    <string name="calculo_de_agradiente">Calculo de agradiente</string>
+    <string name="calculo_de_agradiente">Calculo de gradiente</string>
+    <string name="icono_procentaje">Icono Procentaje</string>
+    <string name="icono_grow_money">Icono grow money</string>
+    <string name="icono_historial">Icono historial</string>
+    <string name="payment_history_icon_by_icons8">Payment History icon by Icons8</string>
+    <string name="historial_de_calculos">Historial de calculos</string>
+    <string name="powered_by_didacticos_csj">Powered by Didacticos CSJ</string>
+    <string name="link_icons"><a href="https://www.google.pl/">Icons provided by</a></string>
+    <string name="vi_eta_moneda">Viñeta moneda</string>
+    <string name="version_1_0_0">Version 1.0.0</string>
+    <string name="tasa_inicial">Tasa inicial</string>
+    <string name="Tasa_final">Tasa final</string>
+    <string name="divider">divider</string>
+    <string name="periocidad">Periocidad</string>
+    <string name="nominal_efectiva">(Nominal/Efectiva)</string>
+    <string name="vencida_anticipada">(Vencida/Anticipada)</string>
 </resources>
