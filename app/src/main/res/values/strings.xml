@@ -21,4 +21,7 @@
     <string name="periocidad">Periocidad</string>
     <string name="nominal_efectiva">(Nominal/Efectiva)</string>
     <string name="vencida_anticipada">(Vencida/Anticipada)</string>
+    <string name="calcular">Calcular</string>
+    <string name="guardar">Guardar</string>
+    <string name="limpiar">Limpiar</string>
 </resources>
