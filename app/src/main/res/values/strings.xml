@@ -25,4 +25,9 @@
     <string name="guardar">Guardar</string>
     <string name="limpiar">Limpiar</string>
     <string name="economia">Economia</string>
+    <string name="result">Resultado</string>
+    <string name="show_cardview_final_rate">Show CardView Final Rate</string>
+    <string name="show_cardview_intial_rate">Show CardView intial Rate</string>
+    <string name="close_dialog">Close dialog</string>
+    <string name="not_availaibe_yet">By the moment this feature is not working yet</string>
 </resources>

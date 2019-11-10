@@ -29,14 +29,13 @@ public class MainOptions extends FragmentBase {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.setLayout(R.layout.fragment_main);
+        super.setMenu(R.menu.menu_main);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initializeUI();
-        optionRate.setOnClickListener(viewClick -> Navigation.findNavController(view).navigate(R.id.action_mainOptions_to_rateConverter));
     }
     //endregion
 
@@ -44,6 +43,9 @@ public class MainOptions extends FragmentBase {
     @Override
     public void initializeUI() {
         super.initilize();
+        if(super.getView() != null){
+            optionRate.setOnClickListener(viewClick -> Navigation.findNavController(super.getView()).navigate(R.id.action_mainOptions_to_rateConverter));
+        }
     }
 
     @Override

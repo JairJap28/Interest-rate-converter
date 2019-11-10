@@ -1,6 +1,5 @@
 package com.example.economyapp.Base;
 
-import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -8,13 +7,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import butterknife.ButterKnife;
 
-public abstract class ActivityBase extends AppCompatActivity {
+public abstract class ActivityBase extends AppCompatActivity implements BaseContract {
+    //region Properties
     private int menuId;
-
     public void setMenu(int menu) {
         this.menuId = menu;
     }
+    //endregion
 
+    //overrida AppCompatActivity Methodds
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(menuId, menu);
@@ -23,22 +24,25 @@ public abstract class ActivityBase extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-        }
         return super.onOptionsItemSelected(item);
     }
+    //endregion
 
-    protected void initialize(Activity activity){
-        ButterKnife.bind(activity);
+    //region Override Contract Methods
+    @Override
+    public void initilize() {
+        ButterKnife.bind(this);
     }
 
+    //endregion
+
+    //region Class Methods
     public void customizeToolBar() {
     }
+    //endregion
 
+    //region Abstract Methods
     public abstract void startActivity();
-
     public abstract void startUI();
-
+    //region
 }

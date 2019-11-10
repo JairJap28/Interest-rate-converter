@@ -1,8 +1,11 @@
 package com.example.economyapp;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -31,6 +34,17 @@ public class MainActivity extends ActivityBase {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            case R.id.action_info:
+                showDialogAbout();
+                break;
+            case R.id.action_save:
+                saveDataToHistory();
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -39,7 +53,7 @@ public class MainActivity extends ActivityBase {
     //region Override Base Methods
     @Override
     public void startActivity() {
-        super.initialize(this);
+        super.initilize();
     }
 
     @Override
@@ -60,5 +74,18 @@ public class MainActivity extends ActivityBase {
     //endregion
 
     //region Class Methods
+    public void showDialogAbout(){
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_about);
+
+        ImageButton close = dialog.findViewById(R.id.imgButton_close_dialog_about);
+        close.setOnClickListener(view -> dialog.dismiss());
+
+        dialog.show();
+    }
+
+    public void saveDataToHistory(){
+        Toast.makeText(this, R.string.not_availaibe_yet, Toast.LENGTH_LONG).show();
+    }
     //endregion
 }
