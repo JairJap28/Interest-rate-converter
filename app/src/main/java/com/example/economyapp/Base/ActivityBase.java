@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import butterknife.ButterKnife;
 
 public abstract class ActivityBase extends AppCompatActivity {
-    protected void initActivity(Activity activity){
+    protected void initialize(Activity activity){
         ButterKnife.bind(activity);
     }
 

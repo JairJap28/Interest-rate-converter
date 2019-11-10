@@ -20,7 +20,7 @@ public class MainActivity extends ActivityBase {
     //region Override Base Methods
     @Override
     public void start() {
-        super.initActivity(this);
+        super.initialize(this);
     }
     //endregion
 
