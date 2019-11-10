@@ -3,10 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/rateConverter">
+    app:startDestination="@id/mainOptions">
     <fragment
         android:id="@+id/rateConverter"
         android:name="com.example.economyapp.rate_converter.RateConverter"
         android:label="fragment_converter_rate"
         tools:layout="@layout/fragment_converter_rate" />
+    <fragment
+        android:id="@+id/mainOptions"
+        android:name="com.example.economyapp.main_options.MainOptions"
+        android:label="MainOptions"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainOptions_to_rateConverter"
+            app:destination="@id/rateConverter"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:popUpTo="@+id/mainOptions" />
+    </fragment>
 </navigation>

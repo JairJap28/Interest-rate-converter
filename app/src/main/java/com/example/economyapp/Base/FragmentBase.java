@@ -11,9 +11,16 @@ import androidx.fragment.app.Fragment;
 
 import butterknife.ButterKnife;
 
-public abstract class FragmentBase extends Fragment implements BaseContract<View> {
+public abstract class FragmentBase extends Fragment implements BaseContract {
 
     private int layout;
+    private View view;
+
+    @Nullable
+    @Override
+    public View getView() {
+        return view;
+    }
 
     protected void setLayout(int layout) {
         this.layout = layout;
@@ -22,11 +29,17 @@ public abstract class FragmentBase extends Fragment implements BaseContract<View
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(layout, container, false);
+        view = inflater.inflate(layout, container, false);
+        customizeToolbar();
+        return view;
     }
 
     @Override
-    public void initilize(View instance) {
-        ButterKnife.bind(instance);
+    public void initilize() {
+        ButterKnife.bind(this, view);
     }
+
+    public abstract void initializeUI();
+
+    public abstract void customizeToolbar();
 }
