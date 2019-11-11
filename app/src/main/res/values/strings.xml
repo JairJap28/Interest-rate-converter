@@ -30,4 +30,5 @@
     <string name="show_cardview_intial_rate">Show CardView intial Rate</string>
     <string name="close_dialog">Close dialog</string>
     <string name="not_availaibe_yet">By the moment this feature is not working yet</string>
+    <string name="rate">Tasa</string>
 </resources>

@@ -20,9 +20,11 @@ import com.example.economyapp.Base.FragmentBase;
 import com.example.economyapp.MainActivity;
 import com.example.economyapp.R;
 
+import java.util.List;
+
 import butterknife.BindView;
 
-public class RateConverter extends FragmentBase {
+public class RateConverter extends FragmentBase implements RateConverterMVP.View {
     //region Properties
     @BindView(R.id.layout_initial_rate)
     LinearLayout layoutInitialRate;
@@ -99,6 +101,38 @@ public class RateConverter extends FragmentBase {
 
     private void restoreFields(){
         Toast.makeText(getActivity(), "Restoring Fields", Toast.LENGTH_SHORT).show();
+    }
+    //endregion
+
+    //region Contract RateConverterMVP
+    @Override
+    public List<String> getPeriods() {
+        return null;
+    }
+
+    @Override
+    public List<String> getNominalEfectiva() {
+        return null;
+    }
+
+    @Override
+    public List<String> getVencidaAnticipada() {
+        return null;
+    }
+
+    @Override
+    public EntityRateConvert getInitialRate() {
+        return null;
+    }
+
+    @Override
+    public EntityRateConvert getFinalRate() {
+        return null;
+    }
+
+    @Override
+    public void showResult(float value) {
+
     }
     //endregion
 
