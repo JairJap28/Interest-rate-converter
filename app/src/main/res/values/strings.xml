@@ -31,4 +31,26 @@
     <string name="close_dialog">Close dialog</string>
     <string name="not_availaibe_yet">By the moment this feature is not working yet</string>
     <string name="rate">Tasa</string>
+
+    <string name="propmt_opcion">Ingrese una opción</string>
+    <string name="propmt_period">Ingrese un periodo</string>
+
+    <string-array name="efectiva_nominal">
+        <item>Efectiva</item>
+        <item>Nominal</item>
+    </string-array>
+
+    <string-array name="vencida_anticipada">
+        <item>Vencida</item>
+        <item>Anticipada</item>
+    </string-array>
+
+    <string-array name="periciocidad">
+        <item>Mensual</item>
+        <item>Bimestral</item>
+        <item>Trimestral</item>
+        <item>Semestral</item>
+        <item>Anual</item>
+        <item></item>
+    </string-array>
 </resources>

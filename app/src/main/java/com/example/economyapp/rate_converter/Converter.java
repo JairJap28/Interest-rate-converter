@@ -12,6 +12,7 @@ public class Converter {
     public Converter(EntityRateConvert initialRate, EntityRateConvert finalRate) {
         this.initialRate = initialRate;
         this.finalRate = finalRate;
+        result = process();
     }
 
     public EntityRateConvert getInitialRate() {
@@ -42,22 +43,31 @@ public class Converter {
 
     //region Class Methods
     private float process() {
-        return 0;
+        Pair<Conventions, Conventions> initialTypes = new Pair<>(getTypeNominalEfectiva(initialRate), getTypeVencidaAnticipada(initialRate));
+        Pair<Conventions, Conventions> finalTypes = new Pair<>(getTypeNominalEfectiva(finalRate), getTypeVencidaAnticipada(finalRate));
+        return processDependingOnTypes(initialTypes, finalTypes);
     }
 
     private float processDependingOnTypes(Pair<Conventions, Conventions> typesInitial, Pair<Conventions, Conventions> typesFinal) {
         if (typesInitial.first.equals(Conventions.NOMINAL) && typesInitial.second.equals(Conventions.VENCIDA)) {
             if (typesFinal.first.equals(Conventions.NOMINAL) && typesFinal.second.equals(Conventions.VENCIDA)) {
-                return initialRate.getRate();
+                return changeTime();
             } else if (typesFinal.first.equals(Conventions.EFECTIVA) && typesFinal.second.equals(Conventions.VENCIDA)) {
                 return fromNominalVencidaToEfectivaVencida();
             } else if (typesFinal.first.equals(Conventions.NOMINAL) && typesFinal.second.equals(Conventions.ANTICIPADA)) {
                 float auxInteres = fromNominalVencidaToEfectivaVencida();
-                auxInteres = changeTime(); //TODO create equation
+                initialRate.setRate(auxInteres);
+                auxInteres = changeTime();
+                initialRate.setRate(auxInteres);
                 auxInteres = fromEfectivaVencidaToEfectivaAnticipada();
+                initialRate.setRate(auxInteres);
                 return fromEfectivaAnticipadaToNominalAnticipada();
             } else if (typesFinal.first.equals(Conventions.EFECTIVA) && typesFinal.second.equals(Conventions.ANTICIPADA)) {
-
+                float auxInteres = fromNominalVencidaToEfectivaVencida();
+                initialRate.setRate(auxInteres);
+                auxInteres = changeTime();
+                initialRate.setRate(auxInteres);
+                return fromEfectivaVencidaToEfectivaAnticipada();
             }
         } else if (typesInitial.first.equals(Conventions.EFECTIVA) && typesInitial.second.equals(Conventions.VENCIDA)) {
 
@@ -82,7 +92,7 @@ public class Converter {
     }
 
     private float fromEfectivaAnticipadaToNominalAnticipada() {
-        return 0;
+        return initialRate.getRate() * Integer.parseInt(finalRate.getPeriod());
     }
 
     private float fromEfectivaVencidatoNominalVencida() {
@@ -96,7 +106,8 @@ public class Converter {
     }
 
     private float changeTime() {
-        return 0;
+        double inisedeSqrt = Math.pow((1 + initialRate.getRate()), Double.parseDouble(initialRate.getPeriod()));
+        return (float) Math.pow(inisedeSqrt, Double.parseDouble(finalRate.getPeriod()));
     }
 
     private boolean validteTime() {

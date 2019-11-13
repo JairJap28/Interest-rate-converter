@@ -19,8 +19,8 @@ public interface RateConverterMVP {
 
     interface Presenter {
         void setView(View view);
-
         void calculateButtonClicked();
+        float getResult();
     }
 
     interface Model {

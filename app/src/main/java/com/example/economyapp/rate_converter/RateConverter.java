@@ -7,6 +7,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -26,6 +27,8 @@ import butterknife.BindView;
 
 public class RateConverter extends FragmentBase implements RateConverterMVP.View {
     //region Properties
+    RateConverterPresenter presenter;
+
     @BindView(R.id.layout_initial_rate)
     LinearLayout layoutInitialRate;
     @BindView(R.id.layout_final_rate)
@@ -40,6 +43,8 @@ public class RateConverter extends FragmentBase implements RateConverterMVP.View
     Button calculateRate;
     @BindView(R.id.btnCleanRate)
     Button cleanRate;
+    @BindView(R.id.input_rate)
+    EditText inputRate;
     //endregion
 
     //region Override Fragment Methods
@@ -52,6 +57,11 @@ public class RateConverter extends FragmentBase implements RateConverterMVP.View
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -61,9 +71,10 @@ public class RateConverter extends FragmentBase implements RateConverterMVP.View
     @Override
     public void initializeUI() {
         super.initilize();
+        presenter = new RateConverterPresenter();
         imgShowCardInitialRate.setOnClickListener(view -> showCardsRate());
         imgShowCardFinalRate.setOnClickListener(view -> showCardsRate());
-        calculateRate.setOnClickListener(view -> hideCardsRate());
+        calculateRate.setOnClickListener(view -> calculateAndHideCards());
         cleanRate.setOnClickListener(view -> restoreFields());
     }
 
@@ -99,6 +110,13 @@ public class RateConverter extends FragmentBase implements RateConverterMVP.View
         imgShowCardFinalRate.setVisibility(View.VISIBLE);
     }
 
+    private void calculateAndHideCards(){
+        hideCardsRate();
+        presenter.setInitialRate(getInitialRate());
+        presenter.setFinalRate(getFinalRate());
+        presenter.calculateButtonClicked();
+    }
+
     private void restoreFields(){
         Toast.makeText(getActivity(), "Restoring Fields", Toast.LENGTH_SHORT).show();
     }
@@ -122,12 +140,16 @@ public class RateConverter extends FragmentBase implements RateConverterMVP.View
 
     @Override
     public EntityRateConvert getInitialRate() {
-        return null;
+        EntityRateConvert entityRateConvert = new EntityRateConvert();
+        entityRateConvert.setRate(Float.parseFloat(inputRate.getText().toString()));
+        return entityRateConvert;
     }
 
     @Override
     public EntityRateConvert getFinalRate() {
-        return null;
+        EntityRateConvert entityRateConvert = new EntityRateConvert();
+        entityRateConvert.setRate(Float.parseFloat(inputRate.getText().toString()));
+        return entityRateConvert;
     }
 
     @Override
