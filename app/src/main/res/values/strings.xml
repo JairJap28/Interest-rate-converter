@@ -53,4 +53,10 @@
         <item>Semestral</item>
         <item>Anual</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fee_calculation">Calculo de cuota</string>
+    <string name="fee_calculations">Calculo de cuotas</string>
+    <string name="interest_rate">Tasa de interes</string>
 </resources>

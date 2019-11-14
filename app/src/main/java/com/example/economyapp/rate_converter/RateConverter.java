@@ -27,6 +27,7 @@ import com.example.economyapp.R;
 import butterknife.BindView;
 
 public class RateConverter extends FragmentBase implements RateConverterMVP.View, AdapterView.OnItemSelectedListener {
+    //region Properties
     @BindView(R.id.initial_period)
     Spinner spinnerInitialPeriod;
 
@@ -60,7 +61,7 @@ public class RateConverter extends FragmentBase implements RateConverterMVP.View
     TextView textViewResult;
     @BindView(R.id.text_view_value_result)
     TextView valueViewResult;
-    //region Properties
+
     private RateConverterPresenter presenter;
     private EntityRateConvert initialRateEntity;
     private EntityRateConvert finalRateEntity;
@@ -142,10 +143,19 @@ public class RateConverter extends FragmentBase implements RateConverterMVP.View
                 activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
-    //endregion
 
-    //region Class Methods
-    private void initializeSpinners() {
+    @Override
+    public ArrayAdapter<CharSequence> getAdapter(int data) {
+        if (getContext() != null) {
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                    data, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        }
+        return null;
+    }
+
+    @Override
+    public void initializeSpinners() {
         spinnerInitialPeriod.setAdapter(getPeriods());
         spinnerInitialPeriod.setOnItemSelectedListener(this);
         spinnerNominalEfectiva.setAdapter(getNominalEfectiva());
@@ -159,8 +169,9 @@ public class RateConverter extends FragmentBase implements RateConverterMVP.View
         spinnerFinalVencidaAnticipada.setAdapter(getVencidaAnticipada());
         spinnerFinalVencidaAnticipada.setOnItemSelectedListener(this);
     }
+    //endregion
 
-
+    //region Class Methods
     private void showCardsRate(){
         layoutInitialRate.setVisibility(View.VISIBLE);
         layoutFinalRate.setVisibility(View.VISIBLE);
@@ -188,38 +199,17 @@ public class RateConverter extends FragmentBase implements RateConverterMVP.View
     //region Contract RateConverterMVP
     @Override
     public ArrayAdapter<CharSequence> getPeriods() {
-        if (getContext() != null) {
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                    R.array.periciocidad, android.R.layout.simple_spinner_item);
-            // Specify the layout to use when the list of choices appears
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            return adapter;
-        }
-        return null;
+        return getAdapter(R.array.periciocidad);
     }
 
     @Override
     public ArrayAdapter<CharSequence> getNominalEfectiva() {
-        if (getContext() != null) {
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                    R.array.efectiva_nominal, android.R.layout.simple_spinner_item);
-            // Specify the layout to use when the list of choices appears
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            return adapter;
-        }
-        return null;
+        return getAdapter(R.array.efectiva_nominal);
     }
 
     @Override
     public ArrayAdapter<CharSequence> getVencidaAnticipada() {
-        if (getContext() != null) {
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                    R.array.vencida_anticipada, android.R.layout.simple_spinner_item);
-            // Specify the layout to use when the list of choices appears
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            return adapter;
-        }
-        return null;
+        return getAdapter(R.array.vencida_anticipada);
     }
 
     @Override
@@ -245,11 +235,9 @@ public class RateConverter extends FragmentBase implements RateConverterMVP.View
 
     @Override
     public void restoreFields() {
-        valueViewResult.setText(0);
+        inputRate.setText("0.0");
         initializeSpinners();
+        showCardsRate();
     }
-    //endregion
-
-    //region Butterkinfe
     //endregion
 }

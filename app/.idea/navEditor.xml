@@ -8,6 +8,18 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
+                  <entry key="feeCalculation">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-5" />
+                            <option name="y" value="154" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="mainOptions">
                     <value>
                       <LayoutPositions>
@@ -19,6 +31,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_mainOptions_to_feeCalculation">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_mainOptions_to_rateConverter">
                               <value>
                                 <LayoutPositions />
@@ -34,8 +51,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="12" />
-                            <option name="y" value="12" />
+                            <option name="x" value="-8" />
+                            <option name="y" value="-260" />
                           </Point>
                         </option>
                       </LayoutPositions>

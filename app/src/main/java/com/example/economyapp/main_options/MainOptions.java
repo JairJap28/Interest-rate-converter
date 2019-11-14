@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +23,8 @@ public class MainOptions extends FragmentBase {
     //region Properties
     @BindView(R.id.card_view_option_rate)
     CardView optionRate;
+    @BindView(R.id.card_view_option_fee_calculation)
+    CardView optionFeeCalculation;
     //endregion
 
     //region Override Fragment Methods
@@ -45,6 +48,7 @@ public class MainOptions extends FragmentBase {
         super.initilize();
         if(super.getView() != null){
             optionRate.setOnClickListener(viewClick -> Navigation.findNavController(super.getView()).navigate(R.id.action_mainOptions_to_rateConverter));
+            optionFeeCalculation.setOnClickListener(viewClick -> Navigation.findNavController(super.getView()).navigate(R.id.action_mainOptions_to_feeCalculation));
         }
     }
 
@@ -60,6 +64,16 @@ public class MainOptions extends FragmentBase {
             if (activity.getSupportActionBar() != null)
                 activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
+    }
+
+    @Override
+    public void initializeSpinners() {
+
+    }
+
+    @Override
+    public ArrayAdapter<CharSequence> getAdapter(int data) {
+        return null;
     }
     //endregion
 

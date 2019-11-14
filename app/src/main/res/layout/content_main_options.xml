@@ -133,6 +133,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp">
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_view_option_fee_calculation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -151,7 +152,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
-                    android:contentDescription="@string/icono_procentaje"
+                    android:contentDescription="@string/fee_calculation"
                     android:src="@drawable/history" />
 
                 <ImageView
@@ -165,7 +166,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/conversor_de_tasas_de_interes" />
+                    android:text="@string/fee_calculations" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </TableRow>

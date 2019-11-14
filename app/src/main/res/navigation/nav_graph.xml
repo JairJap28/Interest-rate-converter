@@ -18,5 +18,13 @@
             android:id="@+id/action_mainOptions_to_rateConverter"
             app:destination="@+id/rateConverter"
             app:popUpTo="@+id/mainOptions" />
+        <action
+            android:id="@+id/action_mainOptions_to_feeCalculation"
+            app:destination="@id/feeCalculation" />
     </fragment>
+    <fragment
+        android:id="@+id/feeCalculation"
+        android:name="com.example.economyapp.FeeCalculation.FeeCalculation"
+        android:label="fragment_fee_calculation"
+        tools:layout="@layout/fragment_fee_calculation" />
 </navigation>

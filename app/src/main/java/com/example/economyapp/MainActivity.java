@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -70,6 +71,11 @@ public class MainActivity extends ActivityBase {
     public void customizeToolBar() {
         super.customizeToolBar();
         toolbar.setTitle(R.string.economia);
+    }
+
+    @Override
+    public ArrayAdapter<CharSequence> getAdapter(int data) {
+        return null;
     }
     //endregion
 

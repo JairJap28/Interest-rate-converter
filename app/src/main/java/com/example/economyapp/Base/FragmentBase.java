@@ -68,5 +68,7 @@ public abstract class FragmentBase extends Fragment implements BaseContract {
     //region Abstract Methods
     public abstract void initializeUI();
     public abstract void customizeToolbar();
+
+    public abstract void initializeSpinners();
     //endregion
 }
