@@ -25,8 +25,8 @@ public class RateConverterPresenter implements RateConverterMVP.Presenter {
     }
 
     @Override
-    public void calculateButtonClicked() {
-        getResult();
+    public float calculateButtonClicked() {
+        return getResult();
     }
 
     @Override

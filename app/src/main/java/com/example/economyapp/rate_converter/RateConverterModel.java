@@ -4,8 +4,8 @@ public class RateConverterModel implements RateConverterMVP.Model {
 
     private RateConverterRepository repository;
 
-    public RateConverterModel() {
-        this.repository = repository;
+    RateConverterModel() {
+        this.repository = new ConverterRepository();
     }
 
     @Override

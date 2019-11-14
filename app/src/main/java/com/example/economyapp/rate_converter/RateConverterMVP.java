@@ -1,25 +1,28 @@
 package com.example.economyapp.rate_converter;
 
-import java.util.List;
+import android.widget.ArrayAdapter;
 
 public interface RateConverterMVP {
     interface View {
-        List<String> getPeriods();
+        ArrayAdapter<CharSequence> getPeriods();
 
-        List<String> getNominalEfectiva();
+        ArrayAdapter<CharSequence> getNominalEfectiva();
 
-        List<String> getVencidaAnticipada();
+        ArrayAdapter<CharSequence> getVencidaAnticipada();
 
         EntityRateConvert getInitialRate();
 
         EntityRateConvert getFinalRate();
 
         void showResult(float value);
+
+        void restoreFields();
     }
 
     interface Presenter {
         void setView(View view);
-        void calculateButtonClicked();
+
+        float calculateButtonClicked();
         float getResult();
     }
 

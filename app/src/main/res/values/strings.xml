@@ -27,10 +27,11 @@
     <string name="economia">Economia</string>
     <string name="result">Resultado</string>
     <string name="show_cardview_final_rate">Show CardView Final Rate</string>
-    <string name="show_cardview_intial_rate">Show CardView intial Rate</string>
+    <string name="show_cardview_intial_rate">Show CardView initial Rate</string>
     <string name="close_dialog">Close dialog</string>
     <string name="not_availaibe_yet">By the moment this feature is not working yet</string>
     <string name="rate">Tasa</string>
+    <string name="textResult">El resultado de convertir el %s de interes %s %s a interes %s %s es de:</string>
 
     <string name="propmt_opcion">Ingrese una opción</string>
     <string name="propmt_period">Ingrese un periodo</string>
@@ -51,6 +52,5 @@
         <item>Trimestral</item>
         <item>Semestral</item>
         <item>Anual</item>
-        <item></item>
     </string-array>
 </resources>

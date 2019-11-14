@@ -6,11 +6,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,13 +24,11 @@ import com.example.economyapp.Base.FragmentBase;
 import com.example.economyapp.MainActivity;
 import com.example.economyapp.R;
 
-import java.util.List;
-
 import butterknife.BindView;
 
-public class RateConverter extends FragmentBase implements RateConverterMVP.View {
-    //region Properties
-    RateConverterPresenter presenter;
+public class RateConverter extends FragmentBase implements RateConverterMVP.View, AdapterView.OnItemSelectedListener {
+    @BindView(R.id.initial_period)
+    Spinner spinnerInitialPeriod;
 
     @BindView(R.id.layout_initial_rate)
     LinearLayout layoutInitialRate;
@@ -45,6 +46,24 @@ public class RateConverter extends FragmentBase implements RateConverterMVP.View
     Button cleanRate;
     @BindView(R.id.input_rate)
     EditText inputRate;
+    @BindView(R.id.spinner_final_period)
+    Spinner spinnerFinalPeriod;
+    @BindView(R.id.spinner_initial_nominal_efectiva)
+    Spinner spinnerNominalEfectiva;
+    @BindView(R.id.spinner_initial_vencida_anticipada)
+    Spinner spinnerVencidaAnticipada;
+    @BindView(R.id.spinner_final_nominal_efectiva)
+    Spinner spinnerFinalNominalEfectiva;
+    @BindView(R.id.spinner_final_vencida_anticipada)
+    Spinner spinnerFinalVencidaAnticipada;
+    @BindView(R.id.textView_text_result)
+    TextView textViewResult;
+    @BindView(R.id.text_view_value_result)
+    TextView valueViewResult;
+    //region Properties
+    private RateConverterPresenter presenter;
+    private EntityRateConvert initialRateEntity;
+    private EntityRateConvert finalRateEntity;
     //endregion
 
     //region Override Fragment Methods
@@ -59,11 +78,42 @@ public class RateConverter extends FragmentBase implements RateConverterMVP.View
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initialRateEntity = new EntityRateConvert();
+        finalRateEntity = new EntityRateConvert();
     }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long l) {
+        switch (parent.getId()) {
+            case R.id.initial_period:
+                initialRateEntity.setPeriod(parent.getItemAtPosition(pos).toString());
+                break;
+            case R.id.spinner_initial_nominal_efectiva:
+                initialRateEntity.setNominalEfectiva(parent.getItemAtPosition(pos).toString());
+                break;
+            case R.id.spinner_initial_vencida_anticipada:
+                initialRateEntity.setVencidaAnticipada(parent.getItemAtPosition(pos).toString());
+                break;
+            case R.id.spinner_final_period:
+                finalRateEntity.setPeriod(parent.getItemAtPosition(pos).toString());
+                break;
+            case R.id.spinner_final_nominal_efectiva:
+                finalRateEntity.setNominalEfectiva(parent.getItemAtPosition(pos).toString());
+                break;
+            case R.id.spinner_final_vencida_anticipada:
+                finalRateEntity.setVencidaAnticipada(parent.getItemAtPosition(pos).toString());
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
     //endregion
 
@@ -72,6 +122,7 @@ public class RateConverter extends FragmentBase implements RateConverterMVP.View
     public void initializeUI() {
         super.initilize();
         presenter = new RateConverterPresenter();
+        initializeSpinners();
         imgShowCardInitialRate.setOnClickListener(view -> showCardsRate());
         imgShowCardFinalRate.setOnClickListener(view -> showCardsRate());
         calculateRate.setOnClickListener(view -> calculateAndHideCards());
@@ -94,6 +145,22 @@ public class RateConverter extends FragmentBase implements RateConverterMVP.View
     //endregion
 
     //region Class Methods
+    private void initializeSpinners() {
+        spinnerInitialPeriod.setAdapter(getPeriods());
+        spinnerInitialPeriod.setOnItemSelectedListener(this);
+        spinnerNominalEfectiva.setAdapter(getNominalEfectiva());
+        spinnerNominalEfectiva.setOnItemSelectedListener(this);
+        spinnerVencidaAnticipada.setAdapter(getVencidaAnticipada());
+        spinnerVencidaAnticipada.setOnItemSelectedListener(this);
+        spinnerFinalPeriod.setAdapter(getPeriods());
+        spinnerFinalPeriod.setOnItemSelectedListener(this);
+        spinnerFinalNominalEfectiva.setAdapter(getNominalEfectiva());
+        spinnerFinalNominalEfectiva.setOnItemSelectedListener(this);
+        spinnerFinalVencidaAnticipada.setAdapter(getVencidaAnticipada());
+        spinnerFinalVencidaAnticipada.setOnItemSelectedListener(this);
+    }
+
+
     private void showCardsRate(){
         layoutInitialRate.setVisibility(View.VISIBLE);
         layoutFinalRate.setVisibility(View.VISIBLE);
@@ -114,47 +181,72 @@ public class RateConverter extends FragmentBase implements RateConverterMVP.View
         hideCardsRate();
         presenter.setInitialRate(getInitialRate());
         presenter.setFinalRate(getFinalRate());
-        presenter.calculateButtonClicked();
-    }
-
-    private void restoreFields(){
-        Toast.makeText(getActivity(), "Restoring Fields", Toast.LENGTH_SHORT).show();
+        showResult(presenter.calculateButtonClicked() * 100);
     }
     //endregion
 
     //region Contract RateConverterMVP
     @Override
-    public List<String> getPeriods() {
+    public ArrayAdapter<CharSequence> getPeriods() {
+        if (getContext() != null) {
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                    R.array.periciocidad, android.R.layout.simple_spinner_item);
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            return adapter;
+        }
         return null;
     }
 
     @Override
-    public List<String> getNominalEfectiva() {
+    public ArrayAdapter<CharSequence> getNominalEfectiva() {
+        if (getContext() != null) {
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                    R.array.efectiva_nominal, android.R.layout.simple_spinner_item);
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            return adapter;
+        }
         return null;
     }
 
     @Override
-    public List<String> getVencidaAnticipada() {
+    public ArrayAdapter<CharSequence> getVencidaAnticipada() {
+        if (getContext() != null) {
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                    R.array.vencida_anticipada, android.R.layout.simple_spinner_item);
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            return adapter;
+        }
         return null;
     }
 
     @Override
     public EntityRateConvert getInitialRate() {
-        EntityRateConvert entityRateConvert = new EntityRateConvert();
-        entityRateConvert.setRate(Float.parseFloat(inputRate.getText().toString()));
-        return entityRateConvert;
+        initialRateEntity.setRate(Float.parseFloat(inputRate.getText().toString()));
+        return initialRateEntity;
     }
 
     @Override
     public EntityRateConvert getFinalRate() {
-        EntityRateConvert entityRateConvert = new EntityRateConvert();
-        entityRateConvert.setRate(Float.parseFloat(inputRate.getText().toString()));
-        return entityRateConvert;
+        finalRateEntity.setRate(Float.parseFloat(inputRate.getText().toString()));
+        return finalRateEntity;
     }
 
     @Override
     public void showResult(float value) {
+        textViewResult.setText(String.format(getString(R.string.textResult),
+                Float.parseFloat(inputRate.getText().toString()) * 100 + " %",
+                initialRateEntity.getNominalEfectiva(), initialRateEntity.getVencidaAnticipada(),
+                finalRateEntity.getNominalEfectiva(), finalRateEntity.getVencidaAnticipada()));
+        valueViewResult.setText((value + " %"));
+    }
 
+    @Override
+    public void restoreFields() {
+        valueViewResult.setText(0);
+        initializeSpinners();
     }
     //endregion
 
