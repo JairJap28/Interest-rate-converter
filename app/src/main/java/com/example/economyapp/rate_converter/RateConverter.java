@@ -150,6 +150,7 @@ public class RateConverter extends FragmentBase implements RateConverterMVP.View
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                     data, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            return adapter;
         }
         return null;
     }
