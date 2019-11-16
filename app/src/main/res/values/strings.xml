@@ -3,6 +3,7 @@
     <string name="interes_rate_converter">Interes Rate Converter</string>
     <string name="information">Information</string>
     <string name="conversor_de_tasas_de_interes">Conversor de tasas de interes</string>
+    <string name="calculo_de_cuota">Calculos de cuotas</string>
     <string name="separador">Separador</string>
     <string name="calculo_de_anualidades">Calculo de anualidades</string>
     <string name="calculo_de_agradiente">Calculo de gradiente</string>
@@ -59,4 +60,8 @@
     <string name="fee_calculation">Calculo de cuota</string>
     <string name="fee_calculations">Calculo de cuotas</string>
     <string name="interest_rate">Tasa de interes</string>
+    <string name="n_mero_de_cuotas">Número de cuotas</string>
+    <string name="_0">0</string>
+    <string name="monto_a_diferir">Monto a diferir</string>
+    <string name="pagos_extraordinarios">Pagos extraordinarios</string>
 </resources>

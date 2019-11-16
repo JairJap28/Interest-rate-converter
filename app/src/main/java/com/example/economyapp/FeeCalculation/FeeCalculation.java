@@ -95,7 +95,7 @@ public class FeeCalculation extends FragmentBase implements FeeCalculationMVP.Vi
         Toolbar toolbar;
         if (getActivity() != null) {
             toolbar = ((MainActivity) getActivity()).toolbar;
-            toolbar.setTitle(R.string.conversor_de_tasas_de_interes);
+            toolbar.setTitle(R.string.calculo_de_cuota);
 
             AppCompatActivity activity = (AppCompatActivity) getActivity();
             activity.setSupportActionBar(toolbar);

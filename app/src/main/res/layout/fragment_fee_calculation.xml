@@ -23,6 +23,94 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:layout_marginBottom="10dp"
+            card_view:cardCornerRadius="8dp"
+            card_view:cardElevation="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/n_mero_de_cuotas" />
+
+                    <EditText
+                        android:id="@+id/input_number_dues_fee_calculation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:hint="@string/_0"
+                        android:inputType="numberSigned"
+                        android:textAlignment="center" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/monto_a_diferir" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/_0"
+                        android:inputType="numberSigned"
+                        android:textAlignment="center" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <Switch
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pagos_extraordinarios"
+                        android:textColor="@color/colorLightGrey" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:text="Agregar" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             card_view:cardCornerRadius="8dp"
             card_view:cardElevation="10dp">
 
@@ -46,20 +134,10 @@
                         android:textAlignment="center"
                         android:textSize="18sp"
                         android:textStyle="bold" />
-
-                    <ImageButton
-                        android:id="@+id/imgButton_show_CardView_initial_rate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="12dp"
-                        android:background="@android:color/transparent"
-                        android:contentDescription="@string/show_cardview_intial_rate"
-                        android:src="@drawable/ic_arrow_drop_down_black_24dp"
-                        android:visibility="gone" />
-
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/layout_initial_rate"
+                    android:id="@+id/layout_initial_rate_feeC"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -77,11 +155,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:text="@string/rate" />
 
                         <EditText
@@ -90,12 +169,15 @@
                             android:layout_height="wrap_content"
                             android:inputType="numberDecimal"
                             android:labelFor="@+id/input_rate"
-                            android:text="0.0" />
+                            android:layout_weight="3"
+                            android:text="0.0"
+                            android:textAlignment="center" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
                         android:orientation="vertical">
 
                         <TextView
@@ -199,7 +281,6 @@
             android:layout_height="wrap_content"
             android:textSize="25sp" />
     </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/layoutButtons"
