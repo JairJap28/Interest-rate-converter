@@ -64,4 +64,8 @@
     <string name="_0">0</string>
     <string name="monto_a_diferir">Monto a diferir</string>
     <string name="pagos_extraordinarios">Pagos extraordinarios</string>
+    <string name="agregar">Agregar</string>
+    <string name="N_periodo"># Periodo</string>
+    <string name="valor">Valor</string>
+    <string name="add_button">Add Button</string>
 </resources>

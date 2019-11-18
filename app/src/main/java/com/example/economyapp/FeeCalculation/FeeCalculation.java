@@ -10,17 +10,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.economyapp.Base.FragmentBase;
 import com.example.economyapp.MainActivity;
 import com.example.economyapp.R;
 import com.example.economyapp.rate_converter.EntityRateConvert;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -33,8 +42,20 @@ public class FeeCalculation extends FragmentBase implements FeeCalculationMVP.Vi
     Spinner spinnerNominalEfectiva;
     @BindView(R.id.spinner_initial_vencida_anticipada_fee_calculation)
     Spinner spinnerVencidaAnticipada;
+    @BindView(R.id.layout_add_payments_fee_calculation)
+    LinearLayout layoutPayments;
+    @BindView(R.id.switch_add_payments_fee_calculation)
+    Switch switchPayments;
+    @BindView(R.id.recycler_view_payments_fee_calculation)
+    RecyclerView recyclerPayments;
+    @BindView(R.id.input_number_payments_fee_calculation)
+    EditText numberPayments;
+    @BindView(R.id.btn_add_recycler_fee_calculation)
+    Button addPaymentsToView;
 
     private EntityRateConvert rateEntity;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
     //endregion
 
     //region Override Fragment Methods
@@ -88,6 +109,9 @@ public class FeeCalculation extends FragmentBase implements FeeCalculationMVP.Vi
     public void initializeUI() {
         super.initilize();
         initializeSpinners();
+        initializeRecycler();
+        switchPayments.setOnCheckedChangeListener((compoundButton, state) -> showPaymentsInput(state));
+        addPaymentsToView.setOnClickListener(view -> initializeRecycler());
     }
 
     @Override
@@ -127,6 +151,34 @@ public class FeeCalculation extends FragmentBase implements FeeCalculationMVP.Vi
     //endregion
 
     //region Class Methods
+    private void showPaymentsInput(boolean state) {
+        if (state) {
+            layoutPayments.setVisibility(View.VISIBLE);
+        } else {
+            layoutPayments.setVisibility(View.GONE);
+        }
+    }
+
+    private void initializeRecycler() {
+        layoutManager = new LinearLayoutManager(getContext());
+        recyclerPayments.setLayoutManager(layoutManager);
+        int nPayments = numberPayments.getText().toString().isEmpty() ? 0 : Integer.parseInt(numberPayments.getText().toString());
+        List<EntityPayment> payments = new ArrayList<>();
+        for (int i = 0; i < nPayments; i++) {
+            payments.add(new EntityPayment());
+        }
+        mAdapter = new PaymentsAdapter(payments);
+        recyclerPayments.setAdapter(mAdapter);
+
+        showPaymentsInput(false);
+    }
+
+    private void clearRecycler() {
+        layoutManager = new LinearLayoutManager(getContext());
+        recyclerPayments.setLayoutManager(layoutManager);
+        mAdapter = new PaymentsAdapter(new ArrayList<>());
+        recyclerPayments.setAdapter(mAdapter);
+    }
     //endregion
 
     //Contract FeeCalculationMVP
