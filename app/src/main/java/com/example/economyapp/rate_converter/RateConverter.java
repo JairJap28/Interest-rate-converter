@@ -23,6 +23,9 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.economyapp.Base.FragmentBase;
 import com.example.economyapp.MainActivity;
 import com.example.economyapp.R;
+import com.example.economyapp.Utiles.Messages;
+
+import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
 
@@ -190,10 +193,13 @@ public class RateConverter extends FragmentBase implements RateConverterMVP.View
     }
 
     private void calculateAndHideCards(){
+        Messages messages = new Messages("Cargando", "Espere un momento por favor...");
+        messages.showLoading(new WeakReference<>(getContext()));
         hideCardsRate();
         presenter.setInitialRate(getInitialRate());
         presenter.setFinalRate(getFinalRate());
         showResult(presenter.calculateButtonClicked() * 100);
+        messages.hideLoading();
     }
     //endregion
 

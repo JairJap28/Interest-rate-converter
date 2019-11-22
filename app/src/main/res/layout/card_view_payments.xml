@@ -22,6 +22,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="numberSigned"
                     android:hint="@string/N_periodo" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -35,18 +36,19 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
                     android:hint="@string/valor" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <ImageButton
-                android:id="@+id/image_btn_add_payment_item_fee_calculation"
+                android:id="@+id/image_btn_delete_payment_item_fee_calculation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="?android:selectableItemBackgroundBorderless"
-                android:contentDescription="@string/add_button"
-                android:src="@drawable/add_32" />
+                android:contentDescription="@string/delete_button"
+                android:src="@drawable/delete_32" />
 
 
         </LinearLayout>

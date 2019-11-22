@@ -2,6 +2,7 @@ package com.example.economyapp.FeeCalculation;
 
 
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,8 +27,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.economyapp.Base.FragmentBase;
 import com.example.economyapp.MainActivity;
 import com.example.economyapp.R;
+import com.example.economyapp.Utiles.Messages;
 import com.example.economyapp.rate_converter.EntityRateConvert;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,10 +53,20 @@ public class FeeCalculation extends FragmentBase implements FeeCalculationMVP.Vi
     RecyclerView recyclerPayments;
     @BindView(R.id.input_number_payments_fee_calculation)
     EditText numberPayments;
+    @BindView(R.id.input_rate_fee_calculation)
+    EditText interestRate;
+    @BindView(R.id.input_number_dues_fee_calculation)
+    EditText inputNumberDues;
+    @BindView(R.id.input_amout_fee_calculation)
+    EditText inputFinalAmount;
     @BindView(R.id.btn_add_recycler_fee_calculation)
     Button addPaymentsToView;
+    @BindView(R.id.btnCalculateRate_fee_calculation)
+    Button calculate;
 
     private EntityRateConvert rateEntity;
+    private ArrayList<EntityPayment> payments;
+    private EntityPayment initialData;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     //endregion
@@ -71,6 +84,7 @@ public class FeeCalculation extends FragmentBase implements FeeCalculationMVP.Vi
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rateEntity = new EntityRateConvert();
+        initialData = new EntityPayment();
     }
 
     @Override
@@ -112,6 +126,7 @@ public class FeeCalculation extends FragmentBase implements FeeCalculationMVP.Vi
         initializeRecycler();
         switchPayments.setOnCheckedChangeListener((compoundButton, state) -> showPaymentsInput(state));
         addPaymentsToView.setOnClickListener(view -> initializeRecycler());
+        calculate.setOnClickListener(view -> calculate());
     }
 
     @Override
@@ -179,6 +194,41 @@ public class FeeCalculation extends FragmentBase implements FeeCalculationMVP.Vi
         mAdapter = new PaymentsAdapter(new ArrayList<>());
         recyclerPayments.setAdapter(mAdapter);
     }
+
+    private void getPayments() {
+        payments = new ArrayList<>();
+        for (int i = 0; i < mAdapter.getItemCount(); i++) {
+            PaymentsAdapter.ViewHolderPayment viewHolder = (PaymentsAdapter.ViewHolderPayment) recyclerPayments.findViewHolderForAdapterPosition(i);
+            EntityPayment payment = new EntityPayment();
+            if (viewHolder != null && viewHolder.amount.getEditText() != null && viewHolder.numberPeriod.getEditText() != null) {
+                payment.setAmount(Float.parseFloat(viewHolder.amount.getEditText().getText().toString()));
+                payment.setPeriodo(Integer.parseInt(viewHolder.numberPeriod.getEditText().getText().toString()));
+                payments.add(payment);
+            }
+        }
+    }
+
+    private void calculate() {
+        getPayments();
+        rateEntity.setRate(Float.parseFloat(interestRate.getText().toString()));
+        initialData.setPeriodo(Integer.parseInt(inputNumberDues.getText().toString()));
+        initialData.setAmount(Float.parseFloat(inputFinalAmount.getText().toString()));
+
+        Pair<Boolean, Messages> validationImportantData = validateImportantData();
+        if (validationImportantData.first) {
+            validationImportantData.second.showLoading(new WeakReference<>(getContext()));
+        } else {
+            validationImportantData.second.showAlert(new WeakReference<>(getContext()));
+        }
+    }
+
+    private Pair<Boolean, Messages> validateImportantData() {
+        if (initialData.getPeriodo() == 0 || initialData.getAmount() == 0) {
+            Messages messages = new Messages("Datos iniciales", "Es importante que ingrese la cantidad de periodos y la cantidad de dinero");
+            return new Pair<>(false, messages);
+        }
+        return new Pair<>(true, new Messages("Cargando", "Espere un momento por favor..."));
+    }
     //endregion
 
     //Contract FeeCalculationMVP
@@ -199,7 +249,6 @@ public class FeeCalculation extends FragmentBase implements FeeCalculationMVP.Vi
 
     @Override
     public void showResult(float value) {
-
     }
 
     @Override

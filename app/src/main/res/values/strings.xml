@@ -68,4 +68,8 @@
     <string name="N_periodo"># Periodo</string>
     <string name="valor">Valor</string>
     <string name="add_button">Add Button</string>
+    <string name="delete_button">Delete Button</string>
+    <string name="reducci_n_de_tiempo">Reducción de tiempo</string>
+    <string name="reducci_n_de_cuota">Reducción de cuota</string>
+    <string name="tipo_de_calculo">Tipo de calculo</string>
 </resources>

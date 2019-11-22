@@ -55,89 +55,95 @@ public class Converter {
                 initialRate.setRate(auxRate);
                 auxRate = changeTime(auxRate);
                 initialRate.setRate(auxRate);
-                return fromEfectivaVencidatoNominalVencida(false);
+                return fromEfectivaVencidatoNominalVencida();
             } else if (typesFinal.first.equals(Conventions.EFECTIVA) && typesFinal.second.equals(Conventions.VENCIDA)) {
-                return fromNominalVencidaToEfectivaVencida(true);
+                float auxRate = fromNominalVencidaToEfectivaVencida(false);
+                initialRate.setRate(auxRate);
+                auxRate = changeTime(initialRate.getRate());
+                initialRate.setRate(auxRate);
+                return changeTime(initialRate.getRate());
             } else if (typesFinal.first.equals(Conventions.NOMINAL) && typesFinal.second.equals(Conventions.ANTICIPADA)) {
                 float auxInteres = fromNominalVencidaToEfectivaVencida(false);
                 initialRate.setRate(auxInteres);
                 auxInteres = changeTime(initialRate.getRate());
                 initialRate.setRate(auxInteres);
-                auxInteres = fromEfectivaVencidaToEfectivaAnticipada(false);
+                auxInteres = fromEfectivaVencidaToEfectivaAnticipada();
                 initialRate.setRate(auxInteres);
-                return fromEfectivaAnticipadaToNominalAnticipada(false);
+                return fromEfectivaAnticipadaToNominalAnticipada();
             } else if (typesFinal.first.equals(Conventions.EFECTIVA) && typesFinal.second.equals(Conventions.ANTICIPADA)) {
                 float auxInteres = fromNominalVencidaToEfectivaVencida(false);
                 initialRate.setRate(auxInteres);
                 auxInteres = changeTime(initialRate.getRate());
                 initialRate.setRate(auxInteres);
-                return fromEfectivaVencidaToEfectivaAnticipada(false);
+                return fromEfectivaVencidaToEfectivaAnticipada();
             }
         } else if (typesInitial.first.equals(Conventions.EFECTIVA) && typesInitial.second.equals(Conventions.VENCIDA)) {
             if (typesFinal.first.equals(Conventions.NOMINAL) && typesFinal.second.equals(Conventions.VENCIDA)) {
-                return fromEfectivaVencidatoNominalVencida(true);
+                float auxRate = changeTime(initialRate.getRate());
+                initialRate.setRate(auxRate);
+                return fromEfectivaVencidatoNominalVencida();
             } else if (typesFinal.first.equals(Conventions.EFECTIVA) && typesFinal.second.equals(Conventions.VENCIDA)) {
                 return changeTime(initialRate.getRate());
             } else if (typesFinal.first.equals(Conventions.NOMINAL) && typesFinal.second.equals(Conventions.ANTICIPADA)) {
                 float auxInteres = changeTime(initialRate.getRate());
                 initialRate.setRate(auxInteres);
-                auxInteres = fromEfectivaVencidaToEfectivaAnticipada(false);
+                auxInteres = fromEfectivaVencidaToEfectivaAnticipada();
                 initialRate.setRate(auxInteres);
-                return fromEfectivaAnticipadaToNominalAnticipada(false);
+                return fromEfectivaAnticipadaToNominalAnticipada();
             } else if (typesFinal.first.equals(Conventions.EFECTIVA) && typesFinal.second.equals(Conventions.ANTICIPADA)) {
                 float auxInteres = changeTime(initialRate.getRate());
                 initialRate.setRate(auxInteres);
-                return fromEfectivaVencidaToEfectivaAnticipada(false);
+                return fromEfectivaVencidaToEfectivaAnticipada();
             }
         } else if (typesInitial.first.equals(Conventions.NOMINAL) && typesInitial.second.equals(Conventions.ANTICIPADA)) {
             if (typesFinal.first.equals(Conventions.NOMINAL) && typesFinal.second.equals(Conventions.VENCIDA)) {
-                float auxRate = fromNominalAnticipadaToEfectivaAnticipada(false);
+                float auxRate = fromNominalAnticipadaToEfectivaAnticipada();
                 initialRate.setRate(auxRate);
-                auxRate = fromEfectivaActicipadaToEfectivaVencida(false);
+                auxRate = fromEfectivaActicipadaToEfectivaVencida();
                 initialRate.setRate(auxRate);
                 auxRate = changeTime(auxRate);
                 initialRate.setRate(auxRate);
-                auxRate = fromEfectivaVencidaToEfectivaAnticipada(false);
+                auxRate = fromEfectivaVencidaToEfectivaAnticipada();
                 initialRate.setRate(auxRate);
-                return fromEfectivaAnticipadaToNominalAnticipada(false);
+                return fromEfectivaAnticipadaToNominalAnticipada();
             } else if (typesFinal.first.equals(Conventions.EFECTIVA) && typesFinal.second.equals(Conventions.VENCIDA)) {
-                float auxRate = fromNominalAnticipadaToEfectivaAnticipada(false);
+                float auxRate = fromNominalAnticipadaToEfectivaAnticipada();
                 initialRate.setRate(auxRate);
-                auxRate = fromEfectivaActicipadaToEfectivaVencida(false);
+                auxRate = fromEfectivaActicipadaToEfectivaVencida();
                 initialRate.setRate(auxRate);
                 return changeTime(auxRate);
             } else if (typesFinal.first.equals(Conventions.NOMINAL) && typesFinal.second.equals(Conventions.ANTICIPADA)) {
-                float auxRate = fromNominalAnticipadaToEfectivaAnticipada(false);
+                float auxRate = fromNominalAnticipadaToEfectivaAnticipada();
                 initialRate.setRate(auxRate);
-                auxRate = fromEfectivaActicipadaToEfectivaVencida(false);
+                auxRate = fromEfectivaActicipadaToEfectivaVencida();
                 initialRate.setRate(auxRate);
                 auxRate = changeTime(auxRate);
                 initialRate.setRate(auxRate);
-                auxRate = fromEfectivaVencidaToEfectivaAnticipada(false);
+                auxRate = fromEfectivaVencidaToEfectivaAnticipada();
                 initialRate.setRate(auxRate);
-                return fromEfectivaVencidatoNominalVencida(false);
+                return fromEfectivaVencidatoNominalVencida();
             } else if (typesFinal.first.equals(Conventions.EFECTIVA) && typesFinal.second.equals(Conventions.ANTICIPADA)) {
-                float auxRate = fromNominalAnticipadaToEfectivaAnticipada(false);
+                float auxRate = fromNominalAnticipadaToEfectivaAnticipada();
                 initialRate.setRate(auxRate);
-                auxRate = fromEfectivaActicipadaToEfectivaVencida(false);
+                auxRate = fromEfectivaActicipadaToEfectivaVencida();
                 initialRate.setRate(auxRate);
                 auxRate = changeTime(auxRate);
                 initialRate.setRate(auxRate);
-                return fromEfectivaVencidaToEfectivaAnticipada(false);
+                return fromEfectivaVencidaToEfectivaAnticipada();
             }
         } else if (typesInitial.first.equals(Conventions.EFECTIVA) && typesInitial.second.equals(Conventions.ANTICIPADA)) {
             if (typesFinal.first.equals(Conventions.NOMINAL) && typesFinal.second.equals(Conventions.VENCIDA)) {
-                float auxRate = fromEfectivaActicipadaToEfectivaVencida(false);
+                float auxRate = fromEfectivaActicipadaToEfectivaVencida();
                 initialRate.setRate(auxRate);
                 auxRate = changeTime(auxRate);
                 initialRate.setRate(auxRate);
-                return fromEfectivaVencidatoNominalVencida(false);
+                return fromEfectivaVencidatoNominalVencida();
             } else if (typesFinal.first.equals(Conventions.EFECTIVA) && typesFinal.second.equals(Conventions.VENCIDA)) {
-                float auxRate = fromEfectivaActicipadaToEfectivaVencida(false);
+                float auxRate = fromEfectivaActicipadaToEfectivaVencida();
                 initialRate.setRate(auxRate);
                 return changeTime(auxRate);
             } else if (typesFinal.first.equals(Conventions.NOMINAL) && typesFinal.second.equals(Conventions.ANTICIPADA)) {
-                float auxInteres = fromEfectivaAnticipadaToNominalAnticipada(false);
+                float auxInteres = fromEfectivaAnticipadaToNominalAnticipada();
                 initialRate.setRate(auxInteres);
                 return changeTime(auxInteres);
             } else if (typesFinal.first.equals(Conventions.EFECTIVA) && typesFinal.second.equals(Conventions.ANTICIPADA)) {
@@ -147,46 +153,28 @@ public class Converter {
         return 0;
     }
 
-    private float fromNominalAnticipadaToEfectivaAnticipada(boolean changeTime) {
-        float auxRate = initialRate.getRate() / getNumericalPeriods(initialRate.getPeriod());
-        if (changeTime) {
-            return validteTime() ? auxRate : changeTime(auxRate);
-        } else return auxRate;
+    private float fromNominalAnticipadaToEfectivaAnticipada() {
+        return initialRate.getRate() / getNumericalPeriods(initialRate.getPeriod());
     }
 
-    private float fromEfectivaActicipadaToEfectivaVencida(boolean changeTime) {
-        float auxRate = initialRate.getRate() / (1 - initialRate.getRate());
-        if (changeTime) {
-            return validteTime() ? auxRate : changeTime(auxRate);
-        } else return auxRate;
+    private float fromEfectivaActicipadaToEfectivaVencida() {
+        return initialRate.getRate() / (1 - initialRate.getRate());
     }
 
-    private float fromEfectivaVencidaToEfectivaAnticipada(boolean changeTime) {
-        float auxRate = initialRate.getRate() / (1 + initialRate.getRate());
-        if (changeTime) {
-            return validteTime() ? auxRate : changeTime(auxRate);
-        } else return auxRate;
+    private float fromEfectivaVencidaToEfectivaAnticipada() {
+        return initialRate.getRate() / (1 + initialRate.getRate());
     }
 
-    private float fromEfectivaAnticipadaToNominalAnticipada(boolean changeTime) {
-        float auxRate = initialRate.getRate() * getNumericalPeriods(finalRate.getPeriod());
-        if (changeTime) {
-            return validteTime() ? auxRate : changeTime(auxRate);
-        } else return auxRate;
+    private float fromEfectivaAnticipadaToNominalAnticipada() {
+        return initialRate.getRate() * getNumericalPeriods(finalRate.getPeriod());
     }
 
-    private float fromEfectivaVencidatoNominalVencida(boolean changeTime) {
-        float auxRate = initialRate.getRate() * getNumericalPeriods(finalRate.getPeriod());
-        if (changeTime) {
-            return validteTime() ? auxRate : changeTime(auxRate);
-        } else return auxRate;
+    private float fromEfectivaVencidatoNominalVencida() {
+        return initialRate.getRate() * getNumericalPeriods(finalRate.getPeriod());
     }
 
     private float fromNominalVencidaToEfectivaVencida(boolean changeTime) {
-        float auxRate = initialRate.getRate() / getNumericalPeriods(initialRate.getPeriod());
-        if (changeTime) {
-            return validteTime() ? auxRate : changeTime(auxRate);
-        } else return auxRate;
+        return initialRate.getRate() / getNumericalPeriods(initialRate.getPeriod());
     }
 
     private float changeTime(float newRate) {
