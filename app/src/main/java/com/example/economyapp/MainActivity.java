@@ -22,7 +22,6 @@ public class MainActivity extends ActivityBase {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(new TableMainLayout(this));
         startActivity();
         startUI();
     }

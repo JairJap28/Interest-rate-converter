@@ -82,6 +82,64 @@ public class ReduceDue {
         return fetchData();
     }
 
+    public EntityProcessFeeCalculation processTimeReduction() {
+        duesList = new ArrayList<>();
+        previousPeriods = nPeriods;
+        float valueDue = 0f;
+        for (int i = 0; i <= listPayments.size(); i++) {
+            EntityDueDetail due = new EntityDueDetail();
+            due.setnPeriod(previousPeriods);
+            due.setPresentValue(amount);
+            if (i == 0) {
+                valueDue = processDueBasedOnInterest(interest, amount, previousPeriods);
+            }
+            due.setValueDue(valueDue);
+            duesList.add(due);
+
+            if (i < listPayments.size()) {
+                EntityPayment pay = listPayments.get(i);
+                amount = processPresentValue(interest, valueDue, (previousPeriods - pay.getPeriodo() + 1));
+                pay.setAmount(ajustExtraordinaryPayment(pay.getAmount(), getInterestToNextDue(amount, interest.getRate())));
+                amount = amount - (float) pay.getAmount();
+                previousPeriods = getNewPeriod(interest, amount, valueDue) + pay.getPeriodo();
+            }
+        }
+        return fetchData();
+    }
+
+    public EntityProcessFeeCalculation processMixReduction() {
+        duesList = new ArrayList<>();
+        previousPeriods = nPeriods;
+        float valueDue = 0f;
+        for (int i = 0; i <= listPayments.size(); i++) {
+            EntityDueDetail due = new EntityDueDetail();
+            due.setnPeriod(previousPeriods);
+            due.setPresentValue(amount);
+            if (i == 0) {
+                valueDue = processDueBasedOnInterest(interest, amount, previousPeriods);
+                due.setValueDue(valueDue);
+            } else due.setValueDue(valueDue);
+            /*if(listPayments.get(i) != null && listPayments.get(i).isTypeCuota()) {
+                due.setValueDue(valueDue);
+                valueDue = processDueBasedOnInterest(interest, amount, previousPeriods);
+            } else {
+                due.setValueDue(valueDue);
+            }*/
+            duesList.add(due);
+
+            if (i < listPayments.size()) {
+                EntityPayment pay = listPayments.get(i);
+                amount = processPresentValue(interest, valueDue, (previousPeriods - pay.getPeriodo() + 1));
+                pay.setAmount(ajustExtraordinaryPayment(pay.getAmount(), getInterestToNextDue(amount, interest.getRate())));
+                amount = amount - (float) pay.getAmount();
+                previousPeriods = getNewPeriod(interest, amount, valueDue) + pay.getPeriodo();
+            }
+            if (listPayments.get(i) != null && listPayments.get(i).isTypeCuota())
+                valueDue = processDueBasedOnInterest(interest, amount, previousPeriods);
+        }
+        return fetchData();
+    }
+
     private EntityProcessFeeCalculation fetchData() {
         EntityProcessFeeCalculation entityProcessFeeCalculation = new EntityProcessFeeCalculation();
         entityProcessFeeCalculation.setFinalPeriod(nPeriods);
@@ -116,6 +174,12 @@ public class ReduceDue {
         float aux = (1 - (float) Math.pow((1 + interes), nPeriods)) / (interes);
         aux = dueValue * aux;
         return (float) Math.pow((1 + interes), (-1) * nPeriods) * aux;
+    }
+
+    private float getNewPeriod(EntityRateConvert interest, float amout, float due) {
+        float auxUp = (float) Math.log(-(((amout * interest.getRate()) / (due)) - 1));
+        float auxDown = (-1) * (float) Math.log(1 + interest.getRate());
+        return auxUp / auxDown;
     }
 
     public float getFutureValueTAnticipada(float interes, float nPeriods, float dueValue) {

@@ -72,4 +72,6 @@
     <string name="reducci_n_de_tiempo">Reducción de tiempo</string>
     <string name="reducci_n_de_cuota">Reducción de cuota</string>
     <string name="tipo_de_calculo">Tipo de calculo</string>
+    <string name="resultado">Resultado</string>
+    <string name="mixto">Mixto</string>
 </resources>

@@ -45,7 +45,7 @@ public class Messages {
     }
 
     public void hideLoading() {
-        if (progressDialog.isShowing() || progressDialog != null) {
+        if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
             progressDialog = null;
         }

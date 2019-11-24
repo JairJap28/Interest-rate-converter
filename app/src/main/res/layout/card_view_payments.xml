@@ -12,7 +12,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_input_number_period_fee_calculation"
                 android:layout_width="match_parent"
@@ -31,7 +30,7 @@
                 android:id="@+id/text_input_amount_fee_calculation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5">
+                android:layout_weight="2">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -40,6 +39,29 @@
                     android:hint="@string/valor" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="2.4"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <RadioButton
+                    android:id="@+id/radio_buttom_cuota"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="C" />
+
+                <RadioButton
+                    android:id="@+id/radio_buttom_tiempo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="T" />
+            </RadioGroup>
 
             <ImageButton
                 android:id="@+id/image_btn_delete_payment_item_fee_calculation"

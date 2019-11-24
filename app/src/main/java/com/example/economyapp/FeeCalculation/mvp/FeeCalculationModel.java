@@ -42,8 +42,17 @@ public class FeeCalculationModel implements FeeCalculationMVP.Model {
     }
 
     @Override
-    public EntityProcessFeeCalculation reduceTime() {
-        return null;
+    public EntityProcessFeeCalculation reduceTime(EntityRateConvert interest) {
+        ReduceDue reduceDue = new ReduceDue(nPeriods, convertInterest(interest), listPayments);
+        reduceDue.setAmount(amount);
+        return reduceDue.processTimeReduction();
+    }
+
+    @Override
+    public EntityProcessFeeCalculation reduceBoth(EntityRateConvert interest) {
+        ReduceDue reduceDue = new ReduceDue(nPeriods, convertInterest(interest), listPayments);
+        reduceDue.setAmount(amount);
+        return reduceDue.processMixReduction();
     }
 
     //region Class Methods

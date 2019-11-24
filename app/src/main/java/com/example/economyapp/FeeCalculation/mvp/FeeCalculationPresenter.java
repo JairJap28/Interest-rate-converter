@@ -16,6 +16,10 @@ public class FeeCalculationPresenter implements FeeCalculationMVP.Presenter {
     private EntityPayment initialData;
     private ArrayList<EntityPayment> payments;
 
+    private EntityProcessFeeCalculation result;
+    //endregion
+
+
     //region Constructor
     public FeeCalculationPresenter() {
         feeCalculationModel = new FeeCalculationModel();
@@ -41,17 +45,21 @@ public class FeeCalculationPresenter implements FeeCalculationMVP.Presenter {
 
     @Override
     public float calculateButtonClicked() {
+        feeCalculationModel.setAmount((float) initialData.getAmount());
+        feeCalculationModel.setnPeriods(initialData.getPeriodo());
+        feeCalculationModel.setListPayments(payments);
         if (typeCalculation == ConventionsFee.DueRedcution) {
-            feeCalculationModel.setAmount((float) initialData.getAmount());
-            feeCalculationModel.setnPeriods(initialData.getPeriodo());
-            feeCalculationModel.setListPayments(payments);
-            EntityProcessFeeCalculation out = feeCalculationModel.reduceDue(interest);
+            result = feeCalculationModel.reduceDue(interest);
+        } else if (typeCalculation == ConventionsFee.TimeReduction) {
+            result = feeCalculationModel.reduceTime(interest);
+        } else {
+            result = feeCalculationModel.reduceBoth(interest);
         }
         return 0;
     }
 
     @Override
-    public float getResult() {
-        return 0;
+    public EntityProcessFeeCalculation getResult() {
+        return result;
     }
 }

@@ -15,6 +15,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Switch;
 
@@ -22,20 +24,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.economyapp.Base.FragmentBase;
 import com.example.economyapp.FeeCalculation.entities.EntityPayment;
+import com.example.economyapp.FeeCalculation.entities.EntityProcessFeeCalculation;
 import com.example.economyapp.FeeCalculation.mvp.FeeCalculationPresenter;
 import com.example.economyapp.FeeCalculation.mvp.contracts.FeeCalculationMVP;
 import com.example.economyapp.MainActivity;
 import com.example.economyapp.R;
+import com.example.economyapp.Tests.DynamicTable;
 import com.example.economyapp.Utiles.Messages;
 import com.example.economyapp.rate_converter.entities.EntityRateConvert;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -67,16 +73,26 @@ public class FeeCalculation extends FragmentBase implements FeeCalculationMVP.Vi
     Button addPaymentsToView;
     @BindView(R.id.btnCalculateRate_fee_calculation)
     Button calculate;
+    @BindView(R.id.card_view_result_fee_calculation)
+    CardView cardViewResult;
+    @BindView(R.id.layout_result_rate_feeC)
+    LinearLayout layoutResult;
+    @BindView(R.id.scroll_view_fee_calculation)
+    ScrollView scrollView;
+    @BindView(R.id.radio_group_type_calculation)
+    RadioGroup groupTypeCalculation;
 
     private EntityRateConvert rateEntity;
     private ArrayList<EntityPayment> payments;
     private EntityPayment initialData;
-    private RecyclerView.Adapter mAdapter;
+    private PaymentsAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
     private WeakReference<Context> contextWeakReference;
 
     private FeeCalculationPresenter presenter;
+    private int selectedCalculation;
+    private boolean flagShowOptions;
     //endregion
 
     //region Override Fragment Methods
@@ -95,6 +111,7 @@ public class FeeCalculation extends FragmentBase implements FeeCalculationMVP.Vi
         initialData = new EntityPayment();
         contextWeakReference = new WeakReference<>(getContext());
         presenter = new FeeCalculationPresenter();
+        selectedCalculation = R.id.radio_button_reduction_due;
     }
 
     @Override
@@ -137,6 +154,16 @@ public class FeeCalculation extends FragmentBase implements FeeCalculationMVP.Vi
         switchPayments.setOnCheckedChangeListener((compoundButton, state) -> showPaymentsInput(state));
         addPaymentsToView.setOnClickListener(view -> initializeRecycler());
         calculate.setOnClickListener(view -> calculate());
+        groupTypeCalculation.setOnCheckedChangeListener((radioGroup, id) -> {
+            selectedCalculation = id;
+            if (id == R.id.radio_button_reduction_mix) {
+                updateAdapter(true);
+                flagShowOptions = true;
+            } else {
+                updateAdapter(false);
+                flagShowOptions = false;
+            }
+        });
     }
 
     @Override
@@ -176,6 +203,11 @@ public class FeeCalculation extends FragmentBase implements FeeCalculationMVP.Vi
     //endregion
 
     //region Class Methods
+    private void updateAdapter(boolean showOptions) {
+        mAdapter.setShowOptions(showOptions);
+        mAdapter.notifyDataSetChanged();
+    }
+
     private void showPaymentsInput(boolean state) {
         if (state) {
             layoutPayments.setVisibility(View.VISIBLE);
@@ -199,6 +231,7 @@ public class FeeCalculation extends FragmentBase implements FeeCalculationMVP.Vi
             payments.add(new EntityPayment());
         }
         mAdapter = new PaymentsAdapter(payments);
+        mAdapter.setShowOptions(flagShowOptions);
         recyclerPayments.setAdapter(mAdapter);
 
         showPaymentsInput(false);
@@ -221,21 +254,39 @@ public class FeeCalculation extends FragmentBase implements FeeCalculationMVP.Vi
         recyclerPayments.setAdapter(mAdapter);
     }
 
-    private void getPayments() {
-        payments = new ArrayList<>();
-        for (int i = 0; i < mAdapter.getItemCount(); i++) {
-            PaymentsAdapter.ViewHolderPayment viewHolder = (PaymentsAdapter.ViewHolderPayment) recyclerPayments.findViewHolderForAdapterPosition(i);
-            EntityPayment payment = new EntityPayment();
-            if (viewHolder != null && viewHolder.amount.getEditText() != null && viewHolder.numberPeriod.getEditText() != null) {
-                payment.setAmount(Float.parseFloat(viewHolder.amount.getEditText().getText().toString()));
-                payment.setPeriodo(Integer.parseInt(viewHolder.numberPeriod.getEditText().getText().toString()));
-                payments.add(payment);
+    private boolean getPayments() {
+        payments = new ArrayList<EntityPayment>();
+        try {
+            for (int i = 0; i < mAdapter.getItemCount(); i++) {
+                PaymentsAdapter.ViewHolderPayment viewHolder = (PaymentsAdapter.ViewHolderPayment) recyclerPayments.findViewHolderForAdapterPosition(i);
+                EntityPayment payment = new EntityPayment();
+                if (viewHolder != null && viewHolder.amount.getEditText() != null && viewHolder.numberPeriod.getEditText() != null) {
+                    payment.setAmount(Float.parseFloat(viewHolder.amount.getEditText().getText().toString()));
+                    payment.setPeriodo(Integer.parseInt(viewHolder.numberPeriod.getEditText().getText().toString()));
+
+                    int selectedID = viewHolder.radioGroup.getCheckedRadioButtonId();
+                    if (selectedID != -1) {
+                        if (selectedID == R.id.radio_buttom_cuota) {
+                            payment.setTypeCuota(true);
+                        } else if (selectedID == R.id.radio_buttom_tiempo) {
+                            payment.setTypeTiempo(true);
+                        }
+                    }
+                    payments.add(payment);
+                }
             }
+            Collections.sort(payments, (entityPayment, t1) -> entityPayment.getPeriodo() - t1.getPeriodo());
+        } catch (Exception e) {
+            Messages messages = new Messages("Alerta", "Verifique que los campos de los pagos extraordinarios no esten vacios");
+            messages.showAlert(contextWeakReference);
+            return false;
         }
+        return true;
     }
 
     private void calculate() {
-        getPayments();
+        boolean flag = getPayments();
+        if (!flag) return;
         rateEntity.setRate(Float.parseFloat(interestRate.getText().toString().isEmpty() ? "0" : interestRate.getText().toString()));
         initialData.setPeriodo(Integer.parseInt(inputNumberDues.getText().toString().isEmpty() ? "0" : inputNumberDues.getText().toString()));
         initialData.setAmount(Float.parseFloat(inputFinalAmount.getText().toString().isEmpty() ? "0" : inputFinalAmount.getText().toString()));
@@ -250,17 +301,24 @@ public class FeeCalculation extends FragmentBase implements FeeCalculationMVP.Vi
                     @Override
                     public void run() {
                         message.showAletWithAction(contextWeakReference, () -> {
-                            validationImportantData.second.showLoading(contextWeakReference);
+                            if (selectedCalculation == R.id.radio_button_reduction_due)
+                                presenter.setTypeCalculation(ConventionsFee.DueRedcution);
+                            else if (selectedCalculation == R.id.radio_button_reduction_time)
+                                presenter.setTypeCalculation(ConventionsFee.TimeReduction);
+                            else presenter.setTypeCalculation(ConventionsFee.MixReduction);
                             presenter.calculateButtonClicked();
-                            validationImportantData.second.hideLoading();
+                            showResult(presenter.getResult());
                         });
                     }
                 });
             } else {
-                validationImportantData.second.showLoading(contextWeakReference);
-                presenter.setTypeCalculation(ConventionsFee.DueRedcution);
+                if (selectedCalculation == R.id.radio_button_reduction_due)
+                    presenter.setTypeCalculation(ConventionsFee.DueRedcution);
+                else if (selectedCalculation == R.id.radio_button_reduction_time)
+                    presenter.setTypeCalculation(ConventionsFee.TimeReduction);
+                else presenter.setTypeCalculation(ConventionsFee.MixReduction);
                 presenter.calculateButtonClicked();
-                validationImportantData.second.hideLoading();
+                showResult(presenter.getResult());
             }
         } else {
             validationImportantData.second.showAlert(contextWeakReference);
@@ -273,6 +331,15 @@ public class FeeCalculation extends FragmentBase implements FeeCalculationMVP.Vi
             return new Pair<>(false, messages);
         }
         return new Pair<>(true, new Messages("Cargando", "Espere un momento por favor..."));
+    }
+
+    private void moveScrollDown() {
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.fullScroll(View.FOCUS_DOWN);
+            }
+        });
     }
     //endregion
 
@@ -293,7 +360,17 @@ public class FeeCalculation extends FragmentBase implements FeeCalculationMVP.Vi
     }
 
     @Override
-    public void showResult(float value) {
+    public void showResult(EntityProcessFeeCalculation result) {
+        Messages messages = new Messages("Cargando", "Espere un momento por favor...");
+        messages.showLoading(contextWeakReference);
+        if (layoutResult.getChildAt(1) != null) layoutResult.removeViewAt(1);
+        cardViewResult.setVisibility(View.VISIBLE);
+        DynamicTable tableResult = new DynamicTable(getContext());
+        tableResult.setResult(result);
+        tableResult.initComponents();
+        layoutResult.addView(tableResult);
+        moveScrollDown();
+        messages.hideLoading();
     }
 
     @Override

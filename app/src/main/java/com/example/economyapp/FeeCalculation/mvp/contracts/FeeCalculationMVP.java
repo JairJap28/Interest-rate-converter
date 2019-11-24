@@ -13,7 +13,7 @@ public interface FeeCalculationMVP {
 
         ArrayAdapter<CharSequence> getVencidaAnticipada();
 
-        void showResult(float value);
+        void showResult(EntityProcessFeeCalculation result);
 
         void restoreFields();
     }
@@ -21,12 +21,14 @@ public interface FeeCalculationMVP {
     interface Presenter {
         float calculateButtonClicked();
 
-        float getResult();
+        EntityProcessFeeCalculation getResult();
     }
 
     interface Model {
         EntityProcessFeeCalculation reduceDue(EntityRateConvert interest);
 
-        EntityProcessFeeCalculation reduceTime();
+        EntityProcessFeeCalculation reduceTime(EntityRateConvert interest);
+
+        EntityProcessFeeCalculation reduceBoth(EntityRateConvert interest);
     }
 }

@@ -9,6 +9,7 @@
     android:orientation="vertical">
 
     <ScrollView
+        android:id="@+id/scroll_view_fee_calculation"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="55dp">
@@ -27,7 +28,7 @@
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.cardview.widget.CardView
@@ -61,19 +62,28 @@
                             android:background="@color/colorLightGrey" />
 
                         <RadioGroup
+                            android:id="@+id/radio_group_type_calculation"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
                             <RadioButton
+                                android:id="@+id/radio_button_reduction_due"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:checked="true"
                                 android:text="@string/reducci_n_de_cuota" />
 
                             <RadioButton
+                                android:id="@+id/radio_button_reduction_time"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@string/reducci_n_de_tiempo" />
+
+                            <RadioButton
+                                android:id="@+id/radio_button_reduction_mix"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/mixto" />
                         </RadioGroup>
 
                     </LinearLayout>
@@ -197,6 +207,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     card_view:cardCornerRadius="8dp"
+                    android:visibility="visible"
                     card_view:cardElevation="10dp">
 
                     <LinearLayout
@@ -321,6 +332,58 @@
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_view_result_fee_calculation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:visibility="gone"
+                    card_view:cardCornerRadius="8dp"
+                    card_view:cardElevation="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:text="@string/resultado"
+                                android:textAlignment="center"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/layout_result_rate_feeC"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="visible">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_margin="10dp"
+                                android:layout_marginBottom="5dp"
+                                android:background="@color/colorLightGrey"
+                                android:contentDescription="@string/divider" />
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
 

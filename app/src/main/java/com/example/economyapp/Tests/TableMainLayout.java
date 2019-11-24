@@ -24,8 +24,8 @@ public class TableMainLayout extends RelativeLayout {
     // set the header titles
     String[] headers = {
             "# Cuota",
-            "valor cuota",
-            "valor presente",
+            "Valor Presente",
+            "Valor Cuota",
             "Header 4",
     };
 
@@ -72,7 +72,7 @@ public class TableMainLayout extends RelativeLayout {
 
 
         // add some table rows
-        //this.addTableRowToTableA();
+        this.addTableRowToTableA();
         this.addTableRowToTableB();
 
         this.resizeHeaderHeight();
@@ -92,10 +92,10 @@ public class TableMainLayout extends RelativeLayout {
         for (int x = 1; x <= 10; x++) {
 
             SampleObject sampleObject = new SampleObject(
-                    "Col 1, Row " + x,
-                    "Col 2, Row " + x + " - multi-lines",
-                    "Col 3, Row " + x,
-                    "Col 4, Row " + x
+                    x + "",
+                    "$30'000.000 ",
+                    "$40'000.000 ",
+                    "$40'000.000 "
             );
 
             sampleObjects.add(sampleObject);
@@ -122,6 +122,13 @@ public class TableMainLayout extends RelativeLayout {
         this.tableA.setBackgroundColor(Color.GREEN);
         this.horizontalScrollViewB.setBackgroundColor(Color.LTGRAY);
 
+        horizontalScrollViewD.setLayoutParams(new TableLayout.LayoutParams(
+                TableLayout.LayoutParams.MATCH_PARENT,
+                TableLayout.LayoutParams.WRAP_CONTENT));
+
+        tableB.setLayoutParams(new TableLayout.LayoutParams(
+                TableLayout.LayoutParams.MATCH_PARENT,
+                TableLayout.LayoutParams.WRAP_CONTENT));
     }
 
     // set essential component IDs
@@ -147,13 +154,13 @@ public class TableMainLayout extends RelativeLayout {
 
         // RelativeLayout params were very useful here
         // the addRule method is the key to arrange the components properly
-        RelativeLayout.LayoutParams componentB_Params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams componentB_Params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         componentB_Params.addRule(RelativeLayout.RIGHT_OF, this.tableA.getId());
 
-        RelativeLayout.LayoutParams componentC_Params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams componentC_Params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         componentC_Params.addRule(RelativeLayout.BELOW, this.tableA.getId());
 
-        RelativeLayout.LayoutParams componentD_Params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams componentD_Params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         componentD_Params.addRule(RelativeLayout.RIGHT_OF, this.scrollViewC.getId());
         componentD_Params.addRule(RelativeLayout.BELOW, this.horizontalScrollViewB.getId());
 
@@ -194,8 +201,8 @@ public class TableMainLayout extends RelativeLayout {
         TableRow.LayoutParams params = new TableRow.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
         params.setMargins(2, 0, 0, 0);
 
-        for (int x = 0; x < (headerFieldCount); x++) {
-            TextView textView = this.headerTextView(this.headers[x]);
+        for (int x = 0; x < (headerFieldCount - 1); x++) {
+            TextView textView = this.headerTextView(this.headers[x + 1]);
             textView.setLayoutParams(params);
             componentBTableRow.addView(textView);
         }
@@ -249,7 +256,7 @@ public class TableMainLayout extends RelativeLayout {
                 sampleObject.header4
         };
 
-        for (int x = 0; x < loopCount - 1; x++) {
+        for (int x = 0; x < loopCount; x++) {
             TableRow.LayoutParams params = new TableRow.LayoutParams(headerCellsWidth[x + 1], LayoutParams.MATCH_PARENT);
             params.setMargins(2, 2, 0, 0);
 
@@ -280,7 +287,7 @@ public class TableMainLayout extends RelativeLayout {
         headerTextView.setBackgroundColor(Color.WHITE);
         headerTextView.setText(label);
         headerTextView.setGravity(Gravity.CENTER);
-        headerTextView.setPadding(10, 10, 10, 10);
+        headerTextView.setPadding(5, 5, 5, 5);
 
         return headerTextView;
     }
@@ -291,24 +298,25 @@ public class TableMainLayout extends RelativeLayout {
         TableRow productNameHeaderTableRow = (TableRow) this.tableA.getChildAt(0);
         TableRow productInfoTableRow = (TableRow) this.tableB.getChildAt(0);
 
-        //int rowAHeight = this.viewHeight(productNameHeaderTableRow);
+        int rowAHeight = this.viewHeight(productNameHeaderTableRow);
         int rowBHeight = this.viewHeight(productInfoTableRow);
 
-        TableRow tableRow = productInfoTableRow;
-        int finalHeight = rowBHeight;
+        TableRow tableRow = rowAHeight < rowBHeight ? productNameHeaderTableRow : productInfoTableRow;
+        int finalHeight = rowAHeight > rowBHeight ? rowAHeight : rowBHeight;
 
         this.matchLayoutHeight(tableRow, finalHeight);
     }
 
+    //size of every header
     void getTableRowHeaderCellWidth() {
 
-        //int tableAChildCount = ((TableRow)this.tableA.getChildAt(0)).getChildCount();
+        int tableAChildCount = ((TableRow) this.tableA.getChildAt(0)).getChildCount();
         int tableBChildCount = ((TableRow) this.tableB.getChildAt(0)).getChildCount();
 
-        for (int x = 0; x < tableBChildCount - 1/*(tableAChildCount+tableBChildCount)*/; x++) {
+        for (int x = 0; x < (tableAChildCount + tableBChildCount); x++) {
 
             if (x == 0) {
-                this.headerCellsWidth[x] = 0;/*this.viewWidth(((TableRow)this.tableA.getChildAt(0)).getChildAt(x));*/
+                this.headerCellsWidth[x] = this.viewWidth(((TableRow) this.tableA.getChildAt(0)).getChildAt(x));
             } else {
                 this.headerCellsWidth[x] = this.viewWidth(((TableRow) this.tableB.getChildAt(0)).getChildAt(x - 1));
             }
