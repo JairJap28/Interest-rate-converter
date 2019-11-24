@@ -24,6 +24,19 @@ public class Messages {
                 .show();
     }
 
+    public void showAletWithAction(WeakReference<Context> reference, Runnable taskToExecute) {
+        alertDialog = new AlertDialog.Builder(reference.get())
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("Si", (dialogInterface, i) -> {
+                    taskToExecute.run();
+                })
+                .setNegativeButton("No", (dialogInterface, i) -> {
+                    alertDialog.dismiss();
+                })
+                .show();
+    }
+
     public void showLoading(WeakReference<Context> reference) {
         progressDialog = new ProgressDialog(reference.get());
         progressDialog.setTitle(title);

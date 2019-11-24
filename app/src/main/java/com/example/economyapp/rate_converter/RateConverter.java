@@ -24,6 +24,9 @@ import com.example.economyapp.Base.FragmentBase;
 import com.example.economyapp.MainActivity;
 import com.example.economyapp.R;
 import com.example.economyapp.Utiles.Messages;
+import com.example.economyapp.rate_converter.entities.EntityRateConvert;
+import com.example.economyapp.rate_converter.mvp.RateConverterPresenter;
+import com.example.economyapp.rate_converter.mvp.contracts.RateConverterMVP;
 
 import java.lang.ref.WeakReference;
 

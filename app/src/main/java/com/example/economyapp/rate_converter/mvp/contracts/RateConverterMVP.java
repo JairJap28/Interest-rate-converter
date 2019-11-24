@@ -1,6 +1,8 @@
-package com.example.economyapp.rate_converter;
+package com.example.economyapp.rate_converter.mvp.contracts;
 
 import android.widget.ArrayAdapter;
+
+import com.example.economyapp.rate_converter.entities.EntityRateConvert;
 
 public interface RateConverterMVP {
     interface View {

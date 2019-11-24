@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.economyapp.FeeCalculation.entities.EntityPayment;
 import com.example.economyapp.R;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -50,9 +51,10 @@ public class PaymentsAdapter extends RecyclerView.Adapter<PaymentsAdapter.ViewHo
         }
 
         void deleteItem(int pos) {
-            if (payments.size() > 0) {
+            try {
                 payments.remove(pos);
                 notifyItemRemoved(pos);
+            } catch (Exception ignored) {
             }
         }
     }

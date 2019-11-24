@@ -1,4 +1,4 @@
-package com.example.economyapp.rate_converter;
+package com.example.economyapp.rate_converter.entities;
 
 public class EntityRateConvert {
     //region Properties

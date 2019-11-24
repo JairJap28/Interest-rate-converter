@@ -1,4 +1,7 @@
-package com.example.economyapp.rate_converter;
+package com.example.economyapp.rate_converter.mvp;
+
+import com.example.economyapp.rate_converter.entities.EntityRateConvert;
+import com.example.economyapp.rate_converter.mvp.contracts.RateConverterMVP;
 
 public class RateConverterPresenter implements RateConverterMVP.Presenter {
     //region Properties
@@ -6,15 +9,15 @@ public class RateConverterPresenter implements RateConverterMVP.Presenter {
     private EntityRateConvert initialRate;
     private EntityRateConvert finalRate;
 
-    RateConverterPresenter() {
+    public RateConverterPresenter() {
         rateConverterModel = new RateConverterModel();
     }
 
-    void setInitialRate(EntityRateConvert initialRate) {
+    public void setInitialRate(EntityRateConvert initialRate) {
         this.initialRate = initialRate;
     }
 
-    void setFinalRate(EntityRateConvert finalRate) {
+    public void setFinalRate(EntityRateConvert finalRate) {
         this.finalRate = finalRate;
     }
     //endregion

@@ -1,6 +1,7 @@
 package com.example.economyapp.FeeCalculation;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -25,10 +26,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.economyapp.Base.FragmentBase;
+import com.example.economyapp.FeeCalculation.entities.EntityPayment;
+import com.example.economyapp.FeeCalculation.mvp.FeeCalculationPresenter;
+import com.example.economyapp.FeeCalculation.mvp.contracts.FeeCalculationMVP;
 import com.example.economyapp.MainActivity;
 import com.example.economyapp.R;
 import com.example.economyapp.Utiles.Messages;
-import com.example.economyapp.rate_converter.EntityRateConvert;
+import com.example.economyapp.rate_converter.entities.EntityRateConvert;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -69,6 +73,10 @@ public class FeeCalculation extends FragmentBase implements FeeCalculationMVP.Vi
     private EntityPayment initialData;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+
+    private WeakReference<Context> contextWeakReference;
+
+    private FeeCalculationPresenter presenter;
     //endregion
 
     //region Override Fragment Methods
@@ -85,6 +93,8 @@ public class FeeCalculation extends FragmentBase implements FeeCalculationMVP.Vi
         super.onViewCreated(view, savedInstanceState);
         rateEntity = new EntityRateConvert();
         initialData = new EntityPayment();
+        contextWeakReference = new WeakReference<>(getContext());
+        presenter = new FeeCalculationPresenter();
     }
 
     @Override
@@ -178,6 +188,12 @@ public class FeeCalculation extends FragmentBase implements FeeCalculationMVP.Vi
         layoutManager = new LinearLayoutManager(getContext());
         recyclerPayments.setLayoutManager(layoutManager);
         int nPayments = numberPayments.getText().toString().isEmpty() ? 0 : Integer.parseInt(numberPayments.getText().toString());
+        Pair<Integer, Messages> validationNPayments = validateAndGetNumberPayments(nPayments);
+        if (validationNPayments.second != null) {
+            validationNPayments.second.showAlert(contextWeakReference);
+        }
+        nPayments = validationNPayments.first;
+
         List<EntityPayment> payments = new ArrayList<>();
         for (int i = 0; i < nPayments; i++) {
             payments.add(new EntityPayment());
@@ -186,6 +202,16 @@ public class FeeCalculation extends FragmentBase implements FeeCalculationMVP.Vi
         recyclerPayments.setAdapter(mAdapter);
 
         showPaymentsInput(false);
+    }
+
+    private Pair<Integer, Messages> validateAndGetNumberPayments(int nPayments) {
+        if (inputNumberDues.getText().toString().isEmpty()) {
+            return new Pair<>(0, new Messages("Alerta", "Para ingresar pagos extraordinarios porfavor primero indique el número de cuotas"));
+        } else if (Integer.parseInt(inputNumberDues.getText().toString()) < nPayments) {
+            return new Pair<>(Integer.parseInt(inputNumberDues.getText().toString()),
+                    new Messages("Información", "El número de pagos ingresado es superior al número de cuotas ingresadas, se permitirá ingresar como maximo el número de cuotas"));
+        }
+        return new Pair<>(nPayments, null);
     }
 
     private void clearRecycler() {
@@ -210,15 +236,34 @@ public class FeeCalculation extends FragmentBase implements FeeCalculationMVP.Vi
 
     private void calculate() {
         getPayments();
-        rateEntity.setRate(Float.parseFloat(interestRate.getText().toString()));
-        initialData.setPeriodo(Integer.parseInt(inputNumberDues.getText().toString()));
-        initialData.setAmount(Float.parseFloat(inputFinalAmount.getText().toString()));
-
+        rateEntity.setRate(Float.parseFloat(interestRate.getText().toString().isEmpty() ? "0" : interestRate.getText().toString()));
+        initialData.setPeriodo(Integer.parseInt(inputNumberDues.getText().toString().isEmpty() ? "0" : inputNumberDues.getText().toString()));
+        initialData.setAmount(Float.parseFloat(inputFinalAmount.getText().toString().isEmpty() ? "0" : inputFinalAmount.getText().toString()));
+        presenter.setInitialData(initialData);
+        presenter.setInterest(rateEntity);
+        presenter.setPayments(payments);
         Pair<Boolean, Messages> validationImportantData = validateImportantData();
         if (validationImportantData.first) {
-            validationImportantData.second.showLoading(new WeakReference<>(getContext()));
+            if (rateEntity.getRate() == 0.0) {
+                Messages message = new Messages("Alerta tasa interes", "Desea continuar con una tasa de interes del 0%");
+                message.showAletWithAction(contextWeakReference, new Runnable() {
+                    @Override
+                    public void run() {
+                        message.showAletWithAction(contextWeakReference, () -> {
+                            validationImportantData.second.showLoading(contextWeakReference);
+                            presenter.calculateButtonClicked();
+                            validationImportantData.second.hideLoading();
+                        });
+                    }
+                });
+            } else {
+                validationImportantData.second.showLoading(contextWeakReference);
+                presenter.setTypeCalculation(ConventionsFee.DueRedcution);
+                presenter.calculateButtonClicked();
+                validationImportantData.second.hideLoading();
+            }
         } else {
-            validationImportantData.second.showAlert(new WeakReference<>(getContext()));
+            validationImportantData.second.showAlert(contextWeakReference);
         }
     }
 

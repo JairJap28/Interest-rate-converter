@@ -27,6 +27,7 @@
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                android:visibility="gone"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.cardview.widget.CardView
@@ -365,6 +366,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="25sp" />
             </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="tableA" type="id" />
+    <item name="horizontalScrollViewB" type="id" />
+    <item name="scrollViewC" type="id" />
+    <item name="scrollViewD" type="id" />
+</resources>

@@ -2,6 +2,8 @@ package com.example.economyapp.rate_converter;
 
 import android.util.Pair;
 
+import com.example.economyapp.rate_converter.entities.EntityRateConvert;
+
 public class Converter {
     //region Properties
     private EntityRateConvert initialRate;
@@ -9,6 +11,9 @@ public class Converter {
     private float result;
 
     //region Constructor
+    public Converter() {
+    }
+
     public Converter(EntityRateConvert initialRate, EntityRateConvert finalRate) {
         this.initialRate = initialRate;
         this.finalRate = finalRate;
@@ -51,19 +56,19 @@ public class Converter {
     private float processDependingOnTypes(Pair<Conventions, Conventions> typesInitial, Pair<Conventions, Conventions> typesFinal) {
         if (typesInitial.first.equals(Conventions.NOMINAL) && typesInitial.second.equals(Conventions.VENCIDA)) {
             if (typesFinal.first.equals(Conventions.NOMINAL) && typesFinal.second.equals(Conventions.VENCIDA)) {
-                float auxRate = fromNominalVencidaToEfectivaVencida(false);
+                float auxRate = fromNominalVencidaToEfectivaVencida();
                 initialRate.setRate(auxRate);
                 auxRate = changeTime(auxRate);
                 initialRate.setRate(auxRate);
                 return fromEfectivaVencidatoNominalVencida();
             } else if (typesFinal.first.equals(Conventions.EFECTIVA) && typesFinal.second.equals(Conventions.VENCIDA)) {
-                float auxRate = fromNominalVencidaToEfectivaVencida(false);
+                float auxRate = fromNominalVencidaToEfectivaVencida();
                 initialRate.setRate(auxRate);
                 auxRate = changeTime(initialRate.getRate());
                 initialRate.setRate(auxRate);
-                return changeTime(initialRate.getRate());
+                return initialRate.getRate();
             } else if (typesFinal.first.equals(Conventions.NOMINAL) && typesFinal.second.equals(Conventions.ANTICIPADA)) {
-                float auxInteres = fromNominalVencidaToEfectivaVencida(false);
+                float auxInteres = fromNominalVencidaToEfectivaVencida();
                 initialRate.setRate(auxInteres);
                 auxInteres = changeTime(initialRate.getRate());
                 initialRate.setRate(auxInteres);
@@ -71,7 +76,7 @@ public class Converter {
                 initialRate.setRate(auxInteres);
                 return fromEfectivaAnticipadaToNominalAnticipada();
             } else if (typesFinal.first.equals(Conventions.EFECTIVA) && typesFinal.second.equals(Conventions.ANTICIPADA)) {
-                float auxInteres = fromNominalVencidaToEfectivaVencida(false);
+                float auxInteres = fromNominalVencidaToEfectivaVencida();
                 initialRate.setRate(auxInteres);
                 auxInteres = changeTime(initialRate.getRate());
                 initialRate.setRate(auxInteres);
@@ -173,7 +178,7 @@ public class Converter {
         return initialRate.getRate() * getNumericalPeriods(finalRate.getPeriod());
     }
 
-    private float fromNominalVencidaToEfectivaVencida(boolean changeTime) {
+    private float fromNominalVencidaToEfectivaVencida() {
         return initialRate.getRate() / getNumericalPeriods(initialRate.getPeriod());
     }
 
@@ -186,7 +191,7 @@ public class Converter {
         return initialRate.getPeriod().equals(finalRate.getPeriod());
     }
 
-    private Conventions getTypeNominalEfectiva(EntityRateConvert rate) {
+    public Conventions getTypeNominalEfectiva(EntityRateConvert rate) {
         if ("EFECTIVA".equalsIgnoreCase(rate.getNominalEfectiva())) {
             return Conventions.EFECTIVA;
         } else {
@@ -194,7 +199,7 @@ public class Converter {
         }
     }
 
-    private Conventions getTypeVencidaAnticipada(EntityRateConvert rate) {
+    public Conventions getTypeVencidaAnticipada(EntityRateConvert rate) {
         if ("ANTICIPADA".equalsIgnoreCase(rate.getVencidaAnticipada())) {
             return Conventions.ANTICIPADA;
         } else {
@@ -202,7 +207,7 @@ public class Converter {
         }
     }
 
-    private int getNumericalPeriods(String period) {
+    public int getNumericalPeriods(String period) {
         if (period.equalsIgnoreCase("Mensual")) {
             return 12;
         } else if (period.equalsIgnoreCase("Bimestral")) {

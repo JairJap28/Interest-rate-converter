@@ -1,4 +1,4 @@
-package com.example.economyapp.FeeCalculation;
+package com.example.economyapp.FeeCalculation.entities;
 
 public class EntityPayment {
     private int periodo;

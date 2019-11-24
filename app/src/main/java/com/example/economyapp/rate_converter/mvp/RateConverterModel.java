@@ -1,4 +1,8 @@
-package com.example.economyapp.rate_converter;
+package com.example.economyapp.rate_converter.mvp;
+
+import com.example.economyapp.rate_converter.entities.EntityRateConvert;
+import com.example.economyapp.rate_converter.mvp.contracts.RateConverterMVP;
+import com.example.economyapp.rate_converter.mvp.contracts.RateConverterRepository;
 
 public class RateConverterModel implements RateConverterMVP.Model {
 
