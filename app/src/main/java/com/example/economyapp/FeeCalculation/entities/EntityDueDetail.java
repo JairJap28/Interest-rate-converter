@@ -4,6 +4,7 @@ public class EntityDueDetail {
     private float valueDue;
     private float presentValue;
     private float nPeriod;
+    private float originalPayment;
 
     public float getValueDue() {
         return valueDue;
@@ -27,5 +28,13 @@ public class EntityDueDetail {
 
     public void setnPeriod(float nPeriod) {
         this.nPeriod = nPeriod;
+    }
+
+    public float getOriginalPayment() {
+        return originalPayment;
+    }
+
+    public void setOriginalPayment(float originalPayment) {
+        this.originalPayment = originalPayment;
     }
 }

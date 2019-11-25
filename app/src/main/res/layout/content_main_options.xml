@@ -60,6 +60,7 @@
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
+            android:visibility="gone"
             card_view:cardElevation="5dp">
 
             <LinearLayout
@@ -98,6 +99,7 @@
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
+            android:visibility="gone"
             card_view:cardElevation="5dp">
 
             <LinearLayout

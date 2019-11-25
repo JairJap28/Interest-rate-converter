@@ -19,6 +19,7 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,9 +41,11 @@ import com.example.economyapp.Utiles.Messages;
 import com.example.economyapp.rate_converter.entities.EntityRateConvert;
 
 import java.lang.ref.WeakReference;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 
@@ -81,6 +84,10 @@ public class FeeCalculation extends FragmentBase implements FeeCalculationMVP.Vi
     ScrollView scrollView;
     @BindView(R.id.radio_group_type_calculation)
     RadioGroup groupTypeCalculation;
+    @BindView(R.id.text_view_final_interest_payment_feeC)
+    TextView finalInteresValue;
+    @BindView(R.id.text_view_final_payment_feeC)
+    TextView finalPayment;
 
     private EntityRateConvert rateEntity;
     private ArrayList<EntityPayment> payments;
@@ -369,6 +376,12 @@ public class FeeCalculation extends FragmentBase implements FeeCalculationMVP.Vi
         tableResult.setResult(result);
         tableResult.initComponents();
         layoutResult.addView(tableResult);
+
+        Locale locale = new Locale("es", "US");
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(locale);
+
+        finalPayment.setText(currencyFormatter.format(result.getFinalAmountToPay()));
+        finalInteresValue.setText(currencyFormatter.format(result.getValueInterests()));
         moveScrollDown();
         messages.hideLoading();
     }
